@@ -1,0 +1,19 @@
+.Progress-Bar__container{
+  display: block;
+}
+.Progress-Bar__Labels{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem;
+  font-size: 14px;
+}
+.Progress-Bar{
+  background: #969595;
+  width: 100%;
+  height: 10px;
+  border-radius: 25px;
+}
+.Progress-Bar__fill{
+  border-radius: 25px;
+  height: 100%;
+}

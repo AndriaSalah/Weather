@@ -1,0 +1,13 @@
+.Hero{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  .TextContainer{
+    font-weight:200 ;
+  }
+  .Profile_Settings{
+    width: 10%;
+    font-size: 30px;
+  }
+}

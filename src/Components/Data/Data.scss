@@ -1,0 +1,17 @@
+.DataWrapper{
+  width: 60%;
+  height: 100%;
+  //padding: 1rem;
+
+  .DataContainer{
+    padding: 2rem 5rem;
+    width: 100%;
+    height: 100%;
+    background: rgba(166, 166, 166, 0.60);
+    //border-radius: 60px 0 0 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+  }
+}

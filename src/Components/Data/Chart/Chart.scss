@@ -1,0 +1,19 @@
+.Chart {
+  background: rgba(255, 255, 255, 0.75);
+  padding: 2rem;
+  border-radius: 25px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    .Controls{
+      select{
+        outline: none;
+        border: none;
+        border-radius: 25px;
+      }
+    }
+  }
+}
+
+
