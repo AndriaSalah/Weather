@@ -8,9 +8,10 @@ import './MoreDetails.scss'
 import PropTypes from 'prop-types';
 import {useContext} from "react";
 import {WeatherDataContext} from "../../../App.jsx";
+import Loading from "../../Custom/Loading/Loading.jsx";
 
 const MoreDetails = ()=>{
-const {currentData} = useContext(WeatherDataContext)
+const {currentData,isLoading} = useContext(WeatherDataContext)
 const wind_speed= currentData.wind?currentData.wind.speed :""
 const feels_like= currentData.main?currentData.main.feels_like :""
 const humidity= currentData.main?currentData.main.humidity :""
@@ -22,8 +23,8 @@ const humidity= currentData.main?currentData.main.humidity :""
                     <h4>Humidity</h4>
                     <div className={"icon"}><SiRainmeter/></div>
                 </div>
-                <h2>{humidity}% <p>High</p></h2>
-                <ProgressBar Progress={humidity} Color={"#5C9CE5"} labels={true}/>
+                <h2>{isLoading? 0 :humidity}% <p>High</p></h2>
+                <ProgressBar Progress={isLoading? 0 : humidity} Color={"#5C9CE5"} labels={true}/>
             </div>
 
             <div className="div2">
@@ -31,8 +32,8 @@ const humidity= currentData.main?currentData.main.humidity :""
                     <h4>Wind</h4>
                     <div className={"icon"}><BsWind/></div>
                 </div>
-                <h2>{wind_speed} <p>km/h</p></h2>
-                <ProgressBar Progress={(wind_speed/15)*100} Color={"#5C9CE5"} labels={true}/>
+                <h2>{isLoading? 0 :wind_speed} <p>km/h</p></h2>
+                <ProgressBar Progress={isLoading? 0 : (wind_speed/15)*100} Color={"#5C9CE5"} labels={true}/>
             </div>
 
             <div className="div3">
@@ -59,8 +60,8 @@ const humidity= currentData.main?currentData.main.humidity :""
                     <div className={"icon"}><FaTemperatureEmpty/></div>
                 </div>
 
-                <h2>{feels_like}&deg;</h2>
-                <ProgressBar Progress={(feels_like/50) * 100} Color={"#5C9CE5"} labels={true}/>
+                <h2>{isLoading? 0 :feels_like}&deg;</h2>
+                <ProgressBar Progress={isLoading? 0 : (feels_like/50) * 100} Color={"#5C9CE5"} labels={true}/>
             </div>
 
             <div className="div6">

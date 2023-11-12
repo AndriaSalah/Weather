@@ -58,13 +58,13 @@
 
   .WeatherImg {
     position: relative;
-    height: 70%;
+    height:55vh;
 
     .moon {
       border-radius: 50%;
       position: absolute;
-      top: 10%;
-      right: 5%;
+      bottom: 60%;
+      right: 20%;
       background: #ECB150;
       aspect-ratio: 1/1;
       width: 230px;
