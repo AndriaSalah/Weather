@@ -1,5 +1,5 @@
 import './Loading.scss'
-import PropTypes, {bool} from 'prop-types';
+import PropTypes from 'prop-types';
 const Loading = ({enabled}) => {
     return (
       <>
@@ -11,5 +11,5 @@ const Loading = ({enabled}) => {
 export default Loading;
 
 Loading.propTypes={
-    enabled:bool
+    enabled:PropTypes.bool
 }

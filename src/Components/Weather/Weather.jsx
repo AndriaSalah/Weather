@@ -9,7 +9,7 @@ import {format} from "date-fns";
 import Loading from "../Custom/Loading/Loading.jsx";
 
 const Weather = () => {
-    const {currentData, isLoading} = useContext(WeatherDataContext)
+    const {currentData, isLoading,address} = useContext(WeatherDataContext)
     const country = currentData.sys ? currentData.sys.country : ""
     const city = currentData.main ? currentData.name : ""
     const temperature = currentData.main ? currentData.main.temp : ""
@@ -18,7 +18,7 @@ const Weather = () => {
     return (
         <div className={"WeatherWrapper"}>
             <div className={"location"}>
-                <h4>{city}, {country}</h4>
+                <h4>{!address?`${city},${country}`:address}</h4>
                 <p>{format(new Date(), "'Today, ' d MMM")}</p>
             </div>
             {

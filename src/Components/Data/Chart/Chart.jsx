@@ -22,8 +22,8 @@ const Chart = () => {
             </header>
             <ResponsiveContainer width='100%' height={230} >
                 {!isLoading ?
-                    <AreaChart width={1500} height={250} data={fiveday_array[0]}
-                               margin={{top: 30, right: 0, left: 0, bottom: 0}}>
+                    <AreaChart width={1200} height={250} data={fiveday_array[0]}
+                               margin={{top: 30, right: 0, left:3, bottom: 0}}>
                         <XAxis tickLine={false} axisLine={false} dataKey="name"
                                tickFormatter={value=>value.split(' ')[1].slice(0, 5)} orientation={"top"}/>
                         <YAxis padding={{top:30}} axisLine={false} tickLine={false}/>
