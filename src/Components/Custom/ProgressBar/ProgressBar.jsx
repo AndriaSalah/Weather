@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+
 import './ProgressBar.scss'
 
 const ProgressBar = ({Color = "black", Progress, labels = false}) => {
@@ -17,9 +17,5 @@ const ProgressBar = ({Color = "black", Progress, labels = false}) => {
     )
 }
 
-ProgressBar.propTypes = {
-    Color: PropTypes.string,
-    Progress: PropTypes.number.isRequired,
-    labels: PropTypes.bool
-};
+
 export default ProgressBar

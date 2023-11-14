@@ -1,20 +1,31 @@
 import darkBuildings from '../../assets/test1.png'
 import sunBuildings from '../../assets/test2.png'
+
 import './Weather.scss'
 import {GrNext, GrPrevious} from "react-icons/gr";
 import {BiSun} from "react-icons/bi";
 import {useContext} from "react";
 import {WeatherDataContext} from "../../App.jsx";
 import {format} from "date-fns";
-import Loading from "../Custom/Loading/Loading.jsx";
 
+
+// eslint-disable-next-line react/prop-types
 const Weather = () => {
-    const {currentData, isLoading,address} = useContext(WeatherDataContext)
+
+
+    const {currentData, isLoading,address,setLocationIndex } = useContext(WeatherDataContext)
     const country = currentData.sys ? currentData.sys.country : ""
     const city = currentData.main ? currentData.name : ""
     const temperature = currentData.main ? currentData.main.temp : ""
     const weather_desc = currentData.weather ? currentData.weather[0].main : ""
 
+    function viewNextLocation(){
+
+      setLocationIndex((index)=>index+1)
+    }
+    function viewPrevLocation(){
+        setLocationIndex((index)=>index-1)
+    }
     return (
         <div className={"WeatherWrapper"}>
             <div className={"location"}>
@@ -24,7 +35,7 @@ const Weather = () => {
             {
 
                 <div className={"Temp_Controls"}>
-                    <button><GrPrevious/></button>
+                    <button onClick={viewPrevLocation}><GrPrevious/></button>
                     <div className={"Deg_feel"}>
                         {isLoading ? <></> :
                             <>
@@ -33,7 +44,7 @@ const Weather = () => {
                             </>
                         }
                     </div>
-                    <button><GrNext/></button>
+                    <button onClick={viewNextLocation}><GrNext/></button>
                 </div>
             }
 

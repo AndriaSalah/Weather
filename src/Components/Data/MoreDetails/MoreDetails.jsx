@@ -5,10 +5,10 @@ import {BiCloudLightRain} from "react-icons/bi";
 import {FiSun} from "react-icons/fi";
 import {FaTemperatureEmpty} from "react-icons/fa6";
 import './MoreDetails.scss'
-import PropTypes from 'prop-types';
+
 import {useContext} from "react";
 import {WeatherDataContext} from "../../../App.jsx";
-import Loading from "../../Custom/Loading/Loading.jsx";
+
 
 const MoreDetails = ()=>{
 const {currentData,isLoading} = useContext(WeatherDataContext)
@@ -75,8 +75,6 @@ const humidity= currentData.main?currentData.main.humidity :""
         </div>
     );
 };
-MoreDetails.propTypes={
-    current: PropTypes.object
-}
+
 
 export default MoreDetails;

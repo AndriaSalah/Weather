@@ -16,6 +16,23 @@ $dayColor:#5C9CE5;
   top: 0;
   left: 0;
   display: flex;
+  .addLocation{
+    position: absolute;
+    z-index: 2;
+    bottom: 1%;
+    left: 50%;
+    width: 3rem;
+    aspect-ratio: 1/1;
+    border-radius: 25px;
+    border: none;
+    background: $dayColor;
+    color: white;
+    cursor: pointer;
+    transition-duration: 0.25s;
+    &:hover{
+      background: $nightColor;
+    }
+  }
   //justify-content: space-between;
 }
 

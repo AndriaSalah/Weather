@@ -30,6 +30,7 @@ export const FetchCurrentWeatherData = async (latitude, longitude)=>{
     try {
         const Response = await fetch(API_Current_URL)
         const {main, name, weather, wind} = await Response.json()
+        console.log({main, name, weather, wind} )
         return {main, name, weather, wind}
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -38,7 +39,7 @@ export const FetchCurrentWeatherData = async (latitude, longitude)=>{
 
 }
 export const GeocodeLocation = async (location) => {
-    const link = `https://geocode.maps.co/search?q={${location}}`
+    // const link = `https://geocode.maps.co/search?q={${location}}`
     const test = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyDI-xKHA0zQeocy4i3KPrefgGXxk-KRJcI`
     try {
         const response = await fetch(test);
