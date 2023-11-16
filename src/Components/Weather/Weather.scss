@@ -49,6 +49,17 @@
       background: transparent;
       border: none;
       cursor: pointer;
+      transition-duration: 0.25s;
+      &:hover:not([disabled]){
+        background: #21283C;
+      }
+      &:disabled {
+        background: transparent;
+        cursor: not-allowed;
+      polyline{
+        stroke: gray;
+      }
+      }
       polyline {
         stroke-width: 3;
         stroke: white;

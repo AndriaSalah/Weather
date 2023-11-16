@@ -23,7 +23,7 @@ function App() {
     const [address, setAddress] = useState("")
     const [savedLocations, setSavedLocations] = useState(() => {
         const locations = JSON.parse(localStorage.getItem("locations"))
-        return locations && locations.length > 0 ? locations : []
+        return locations && locations.length > 0 ? locations : null
     })
     const dialogRef = useRef()
     const LocationSelectionDialog = useRef()
@@ -32,7 +32,7 @@ function App() {
 
     useEffect(() => {
 
-        if (savedLocations.length > 0) {
+        if (savedLocations) {
             setAddress(savedLocations[locationIndex][0])
             setDialogText("please wait while we're fetching the latest data for you")
             setIsLoading(true)
@@ -49,13 +49,8 @@ function App() {
                     if (searchTerm === "") {
                         return
                     } else {
-                        // dialogRef.current.openDialog()
-                        GeocodeLocation(searchTerm)
-                            .then(({results}) => {
-                                console.log(results)
-                                const filteredResults = results.map(location => [location.formatted_address, location.geometry])
-                                setGeoLocations(filteredResults)
-                            })
+                      GeocodeLocation(searchTerm)
+                          .then(data=> setGeoLocations(data))
                     }
                     return () => {
                         clearTimeout(debounce)
@@ -166,8 +161,8 @@ function App() {
 
             </Dialog>
             <div className={"Background"}>
-                <WeatherDataContext.Provider value={{currentData, Five_daysData, isLoading, address,setLocationIndex}}>
-                    <Weather/>
+                <WeatherDataContext.Provider value={{currentData, Five_daysData, isLoading, address,setLocationIndex,savedLocations}}>
+                    <Weather address={address} setLocationIndex={setLocationIndex} index={locationIndex} savedLocations={savedLocations}/>
                     <Data/>
                 </WeatherDataContext.Provider>
                 <button className={"addLocation"}

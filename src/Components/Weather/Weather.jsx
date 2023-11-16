@@ -4,27 +4,41 @@ import sunBuildings from '../../assets/test2.png'
 import './Weather.scss'
 import {GrNext, GrPrevious} from "react-icons/gr";
 import {BiSun} from "react-icons/bi";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {WeatherDataContext} from "../../App.jsx";
 import {format} from "date-fns";
 
 
 // eslint-disable-next-line react/prop-types
-const Weather = () => {
+const Weather = ({address,setLocationIndex,index,savedLocations}) => {
 
-
-    const {currentData, isLoading,address,setLocationIndex } = useContext(WeatherDataContext)
+    const[nextEnabled , setNextEnabled] = useState(()=>(index < savedLocations.length))
+    const[prevEnabled , setPrevEnabled] = useState(()=>(index > 0))
+    const {currentData, isLoading} = useContext(WeatherDataContext)
     const country = currentData.sys ? currentData.sys.country : ""
     const city = currentData.main ? currentData.name : ""
     const temperature = currentData.main ? currentData.main.temp : ""
     const weather_desc = currentData.weather ? currentData.weather[0].main : ""
 
-    function viewNextLocation(){
 
-      setLocationIndex((index)=>index+1)
+    useEffect(() => {
+        if(index === savedLocations.length-1) setNextEnabled(false)
+        else setNextEnabled(true)
+        if(index === 0) setPrevEnabled(false)
+        else setPrevEnabled(true)
+    }, [index]);
+    function viewNextLocation() {
+        if (++index < savedLocations.length) setLocationIndex((index) => index + 1)
+
+
     }
     function viewPrevLocation(){
-        setLocationIndex((index)=>index-1)
+        if(--index>=0 ){
+            setLocationIndex((index)=>index-1)
+            // if(index === 0) setPrevEnabled(false)
+            // else set
+        }
+
     }
     return (
         <div className={"WeatherWrapper"}>
@@ -35,7 +49,7 @@ const Weather = () => {
             {
 
                 <div className={"Temp_Controls"}>
-                    <button onClick={viewPrevLocation}><GrPrevious/></button>
+                    <button disabled={!prevEnabled && true} onClick={viewPrevLocation}><GrPrevious/></button>
                     <div className={"Deg_feel"}>
                         {isLoading ? <></> :
                             <>
@@ -44,7 +58,7 @@ const Weather = () => {
                             </>
                         }
                     </div>
-                    <button onClick={viewNextLocation}><GrNext/></button>
+                    <button disabled={!nextEnabled && true} onClick={viewNextLocation}><GrNext/></button>
                 </div>
             }
 

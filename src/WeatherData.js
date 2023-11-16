@@ -46,8 +46,8 @@ export const GeocodeLocation = async (location) => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-       return response.json();
-
+        const {results} = await response.json();
+        return  results.map(location => [location.formatted_address, location.geometry])
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
