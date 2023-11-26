@@ -1,3 +1,4 @@
+
 .WeatherWrapper {
   width: 40%;
   height: 100%;
@@ -5,15 +6,37 @@
   justify-content: space-between;
   flex-direction: column;
   color: white;
-
-  .location {
-    padding: 2rem;
-    font-weight: lighter;
-    h4{
-      font-size: 28px;
-      font-weight: 300;
+  .hero{
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .location {
+      font-weight: lighter;
+      h4{
+        font-size: 28px;
+        font-weight: 300;
+      }
+    }
+    button{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      width: 3rem;
+      background: none;
+      font-size: 2.5rem;
+      color: white;
+      border: none;
+      border-radius:8px;
+      transition-duration: 0.25s;
+      cursor: pointer;
+      &:hover{
+        color: #a1a0a0;
+      }
     }
   }
+
 
   .Temp_Controls {
     height: 10%;
@@ -51,7 +74,7 @@
       cursor: pointer;
       transition-duration: 0.25s;
       &:hover:not([disabled]){
-        background: #21283C;
+        background: var(--accentColor);
       }
       &:disabled {
         background: transparent;
@@ -69,25 +92,27 @@
 
   .WeatherImg {
     position: relative;
-    height:55vh;
+    height:65vh;
 
     .moon {
       border-radius: 50%;
       position: absolute;
       bottom: 60%;
       right: 20%;
-      background: #ECB150;
+      //background:;
+      background: var(--sunColor);
       aspect-ratio: 1/1;
       width: 230px;
       z-index: 0;
     }
 
     img {
-      object-fit: fill;
+      object-fit: cover;
       position: relative;
       z-index: 5;
       width: 100%;
       height: 100%;
+      bottom: -2rem;
     }
   }
 }

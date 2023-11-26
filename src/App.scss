@@ -1,15 +1,26 @@
-$nightColor:#21283C;
-$dayColor:#5C9CE5;
+:root{
+  --bgColor:#5C9CE5;
+  --sunColor:#ECB150;
+  --accentColor:#21283C;
+  --shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.45);
+  --cardColor:rgb(255, 255, 255,0.75);
+  --cardColor_NoAlpha: rgb(255, 255, 255) ;
+  --textColor:#00000;
+}
+
+
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
+
 }
 
 .Background {
-  background: $dayColor;
+  transition-duration: 0.55s;
+  background: var(--bgColor);
   width: 100%;
   height: 100%;
   position: fixed;
@@ -20,19 +31,22 @@ $dayColor:#5C9CE5;
     position: absolute;
     z-index: 2;
     bottom: 1%;
-    left: 50%;
-    width: 3rem;
-    aspect-ratio: 1/1;
+    left: 50vw;
+    width: 10rem;
+    aspect-ratio: 3/1;
     border-radius: 25px;
     border: none;
-    background: $dayColor;
+    background: var(--accentColor);
     color: white;
     cursor: pointer;
     transition-duration: 0.25s;
     &:hover{
-      background: $nightColor;
+      background: var(--bgColor);
     }
   }
   //justify-content: space-between;
 }
+//.Background .night{
+//  background: $nightColor;
+//}
 

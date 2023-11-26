@@ -1,0 +1,27 @@
+.Select{
+position: relative;
+.Main{
+  width: 100%;
+  display: flex;
+  background: white;
+  color: black;
+  padding: 0.5rem 1.5rem;
+  position: relative;
+  border-radius: 35px ;
+  align-items: center;
+  gap: 0.5rem;
+}
+.Dropdown{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: absolute;
+  background: var(--cardColor_NoAlpha);
+  top:3rem ;
+  z-index: 2;
+  padding: 1rem;
+  outline: 1px solid rgba(255, 255, 255, 0.27);
+  border-radius: 25px;
+}
+}

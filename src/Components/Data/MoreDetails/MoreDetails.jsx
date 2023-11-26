@@ -12,9 +12,11 @@ import {WeatherDataContext} from "../../../App.jsx";
 
 const MoreDetails = ()=>{
 const {currentData,isLoading} = useContext(WeatherDataContext)
-const wind_speed= currentData.wind?currentData.wind.speed :""
-const feels_like= currentData.main?currentData.main.feels_like :""
-const humidity= currentData.main?currentData.main.humidity :""
+
+const wind_speed= currentData?currentData.wind_speed_10m :""
+const feels_like= currentData?currentData.apparent_temperature :""
+const humidity= currentData?currentData.relative_humidity_2m :""
+    const precipitation = currentData?currentData.precipitation:""
 
     return (
         <div className={"More_Details"}>
@@ -23,7 +25,7 @@ const humidity= currentData.main?currentData.main.humidity :""
                     <h4>Humidity</h4>
                     <div className={"icon"}><SiRainmeter/></div>
                 </div>
-                <h2>{isLoading? 0 :humidity}% <p>High</p></h2>
+                <h2>{isLoading? 0 :humidity}% <p>{humidity<50?"Low":"High"}</p></h2>
                 <ProgressBar Progress={isLoading? 0 : humidity} Color={"#5C9CE5"} labels={true}/>
             </div>
 
@@ -33,15 +35,15 @@ const humidity= currentData.main?currentData.main.humidity :""
                     <div className={"icon"}><BsWind/></div>
                 </div>
                 <h2>{isLoading? 0 :wind_speed} <p>km/h</p></h2>
-                <ProgressBar Progress={isLoading? 0 : (wind_speed/15)*100} Color={"#5C9CE5"} labels={true}/>
+                <ProgressBar Progress={isLoading? 0 : (wind_speed/65)*100} Color={"#5C9CE5"} labels={true}/>
             </div>
 
             <div className="div3">
                 <div className={"Title_Icon"}>
-                    <h4>disabled</h4>
+                    <h4>Precipitation</h4>
                     <div className={"icon"}><BiCloudLightRain/></div>
                 </div>
-                <h2>{0} <p>cm</p></h2>
+                <h2>{precipitation} <p>mm</p></h2>
                 <ProgressBar Progress={0} Color={"#5C9CE5"} labels={true}/>
             </div>
 
