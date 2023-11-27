@@ -4,7 +4,7 @@ import './Weather.scss'
 import {GrNext, GrPrevious} from "react-icons/gr";
 import {BiSun} from "react-icons/bi";
 import {useContext, useEffect, useState} from "react";
-import {WeatherDataContext} from "../../App.jsx";
+import {WeatherDataContext} from "../Main/Main.jsx";
 import {format} from "date-fns";
 import {CiSquarePlus} from "react-icons/ci";
 

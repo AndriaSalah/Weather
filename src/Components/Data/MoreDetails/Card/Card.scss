@@ -1,0 +1,39 @@
+@mixin Card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  border-radius: 25px;
+  padding: 1rem 2rem;
+  background: var(--cardColor);
+  color: var(--textColor);
+
+  box-shadow: var(--shadow);
+  -webkit-box-shadow: var(--shadow);
+  -moz-box-shadow: var(--shadow);
+  .Title_Icon{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .icon {
+      display: grid;
+      place-items: center;
+      background:#5C9CE5 ;
+      aspect-ratio: 1/1;
+      border-radius: 6px;
+      width: 32px;
+      color: white;
+      font-size: 20px;
+    }
+  }
+  h4{
+    font-weight: 500;
+  }
+  h2{
+    font-weight: 600;
+    p{
+      display: inline;
+      font-size: 16px;
+    }
+  }
+}

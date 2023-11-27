@@ -1,7 +1,7 @@
 import {Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import './Chart.scss'
 import {useContext} from "react";
-import {WeatherDataContext} from "../../../App.jsx";
+import {WeatherDataContext} from "../../Main/Main.jsx";
 import Dropdown from "../../Custom/Dropdown/Dropdown.jsx";
 
 
@@ -32,11 +32,11 @@ const Chart = () => {
                         <defs>
                             <linearGradient id="colorMin" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="10%" stopColor="#ea8282" stopOpacity={0.8}/>
-                                <stop offset="95%" stopColor="#5C9CE5" stopOpacity={0.5}/>
+                                <stop offset="95%" stopColor="#ea8282" stopOpacity={0.2}/>
                             </linearGradient>
                             <linearGradient id="colorMax" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="10%" stopColor="#b1cdee" stopOpacity={1}/>
-                                <stop offset="95%" stopColor="#5C9CE5" stopOpacity={0.5}/>
+                                <stop offset="10%" stopColor="#5C9CE5" stopOpacity={0.8}/>
+                                <stop offset="95%" stopColor="#5C9CE5" stopOpacity={0.2}/>
                             </linearGradient>
                         </defs>
                         <XAxis tickLine={false} axisLine={false} dataKey="day"

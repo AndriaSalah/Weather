@@ -42,7 +42,8 @@ export const FetchCurrentWeatherData = async (latitude, longitude)=>{
 }
 
 export const fetchWeatherData_test = async (latitude,longitude)=>{
-    const Current_Options= ["temperature_2m","relative_humidity_2m","apparent_temperature","is_day","wind_speed_10m","precipitation","weather_code"]
+    const Current_Options= ["temperature_2m","relative_humidity_2m","apparent_temperature",
+        "is_day","wind_speed_10m","precipitation","weather_code","rain","snowfall"]
     // const Hourly_Options = ["temperature_2m","relative_humidity_2m","wind_speed_10m"]
     const Daily_Options = ["temperature_2m_max","temperature_2m_min"]
 
