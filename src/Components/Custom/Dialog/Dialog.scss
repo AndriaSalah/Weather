@@ -1,5 +1,6 @@
 #favDialog{
   display: block;
+  position: fixed;
   width: 50%;
   height: 30%;
   min-height: 30%;
@@ -80,5 +81,16 @@
   &::backdrop {
     background-color: rgba(255, 255, 255, 0);
     backdrop-filter: blur(15px);
+   height: 100vh;
   }
+  @media (max-width: 1100px) {
+    width: 80%;
+    min-height: 50%;
+    &[open] {
+      .buttons {
+        width: 100%;
+      }
+    }
+  }
+
 }

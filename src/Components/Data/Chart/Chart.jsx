@@ -13,11 +13,6 @@ const Chart = () => {
             <header>
                 <h3>Upcoming Days</h3>
                 <div className={"Controls"}>
-                    {/*<select name={"Options"} title={"Options"}>*/}
-                    {/*    <option value={"Temperature"}>Temperature</option>*/}
-                    {/*    <option value={"windSpeed"}>Wind</option>*/}
-                    {/*    <option value={"Humidity"}>Humidity</option>*/}
-                    {/*</select>*/}
                     <Dropdown defaultOption={"Temperature"}>
                         <option value={"Temperature"}>Temperature</option>
                         <option value={"windSpeed"}>Wind</option>
@@ -28,7 +23,7 @@ const Chart = () => {
             <ResponsiveContainer width='100%' height={230}>
                 {!isLoading ?
                     <AreaChart width={1200} height={250} data={Five_daysData}
-                               margin={{top: 30, right: 0, left: 3, bottom: 0}}>
+                               margin={{top: 30, right: 0, left: 0, bottom: 0}}>
                         <defs>
                             <linearGradient id="colorMin" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="10%" stopColor="#ea8282" stopOpacity={0.8}/>
@@ -45,7 +40,7 @@ const Chart = () => {
                                    return `${split[1]}/${split[2]}`
                                }} orientation={"top"}
                                tick={{fill: isDay ? 'black' : 'white',fillOpacity:0.8}}/>
-                        <YAxis padding={{top: 30}} axisLine={false} tickLine={false}
+                        <YAxis width={30} padding={{top: 30}} axisLine={false} tickLine={false}
                                tick={{fill: isDay ? 'black' : 'white',fillOpacity:0.8}}/>
                         <CartesianGrid strokeLinecap={"round"} stroke={"black"} opacity={0.1}/>
                         <Tooltip/>
