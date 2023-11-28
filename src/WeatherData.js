@@ -45,7 +45,7 @@ export const fetchWeatherData_test = async (latitude,longitude)=>{
     const Current_Options= ["temperature_2m","relative_humidity_2m","apparent_temperature",
         "is_day","wind_speed_10m","precipitation","weather_code","rain","snowfall"]
     // const Hourly_Options = ["temperature_2m","relative_humidity_2m","wind_speed_10m"]
-    const Daily_Options = ["temperature_2m_max","temperature_2m_min"]
+    const Daily_Options = ["temperature_2m_max","temperature_2m_min","uv_index_max","wind_speed_10m_max"]
 
     const API_Current_URL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=${Current_Options.toString()}&daily=${Daily_Options.toString()}&timezone=auto`
 
@@ -56,6 +56,8 @@ export const fetchWeatherData_test = async (latitude,longitude)=>{
             day: day,
             temp_min: daily.temperature_2m_min[index],
             temp_max: daily.temperature_2m_max[index],
+            UV: daily.uv_index_max[index],
+            WindSpeed : daily.wind_speed_10m_max[index]
         }));
         console.log(structuredDaily)
         return {current,structuredDaily}

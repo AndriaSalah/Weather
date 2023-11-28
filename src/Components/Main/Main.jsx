@@ -13,7 +13,10 @@ const Main = () => {
     const [isDay,setIsDay] = useState(false)
     const [dialogText, setDialogText] = useState("Welcome, looks like you're new here , let's start by adding an address")
     const [isLoading, setIsLoading] = useState(false)
-
+    const [name , setName] = useState(()=>{
+        const Name = JSON.parse(localStorage.getItem("Name"))
+        return Name ? Name : ""
+    })
     const [geoLocations, setGeoLocations] = useState([])
     const [currentData, setCurrentData] = useState({})
     const [Five_daysData, setFive_daysData] = useState({})
@@ -31,9 +34,9 @@ const Main = () => {
         const locations = JSON.parse(localStorage.getItem("locations"))
         return locations && locations.length > 0 ? locations : []
     })
-    const dialogRef = useRef()
+    const updates = useRef()
     const LocationSelectionDialog = useRef()
-
+    const NameDialog = useRef()
 
 
     function fetchWeatherData(location, newFetch = true) {
@@ -49,8 +52,8 @@ const Main = () => {
             else{
                 setDialogText("location exists")
                 LocationSelectionDialog.current.closeDialog()
-                dialogRef.current.openDialog()
-                setTimeout(() => dialogRef.current.closeDialog(), 1000)
+                updates.current.openDialog()
+                setTimeout(() => updates.current.closeDialog(), 1000)
                 return
             }
 
@@ -59,7 +62,7 @@ const Main = () => {
         const longitude = location[1].location.lng
         const latitude = location[1].location.lat
         LocationSelectionDialog.current.closeDialog()
-        dialogRef.current.openDialog()
+        updates.current.openDialog()
         fetchWeatherData_test(latitude,longitude)
             .then(({current,structuredDaily})=>{
                 setFive_daysData(structuredDaily)
@@ -70,7 +73,7 @@ const Main = () => {
         console.log(currentData)
         console.log(Five_daysData)
 
-        dialogRef.current.closeDialog()
+        updates.current.closeDialog()
         setIsLoading(false)
     }
 
@@ -78,7 +81,7 @@ const Main = () => {
     function FetchWeatherData_Location() {
         LocationSelectionDialog.current.closeDialog()
         setDialogText("please allow using the location permission")
-        dialogRef.current.openDialog()
+        updates.current.openDialog()
         if (navigator.geolocation) navigator.geolocation.getCurrentPosition(success, error)
 
         function success(position) {
@@ -96,14 +99,14 @@ const Main = () => {
                                 setIsDay(current.is_day === 1)
                             })
                         setLocationIndex(0)
-                        setTimeout(() => dialogRef.current.closeDialog(), 1000)
+                        setTimeout(() => updates.current.closeDialog(), 1000)
                     }
                     else  setDialogText("location already exists ")
                 })
 
             console.log(currentData)
             console.log(Five_daysData)
-            dialogRef.current.closeDialog()
+            updates.current.closeDialog()
 
         }
 
@@ -111,7 +114,7 @@ const Main = () => {
         function error() {
             setDialogText("location permission denied")
             setTimeout(() => {
-                dialogRef.current.closeDialog()
+                updates.current.closeDialog()
                 setDialogText("Location permission was denied , please enter your address manually")
                 LocationSelectionDialog.current.openDialog()
             }, 1000)
@@ -125,15 +128,33 @@ const Main = () => {
 
     const saveToLocalStorage = (locationData) => setSavedLocations((prevData) => [locationData, ...prevData])
 
+    function handleNameSubmit(e){
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const enteredName = formData.get("name")
+        setName(enteredName)
+        localStorage.setItem("name",enteredName)
+        NameDialog.current.closeDialog()
+        if (savedLocations.length > 0) {
+            setDialogText("please wait while we're fetching the latest data for you")
+            updates.current.openDialog()
+            setTimeout(() => fetchWeatherData(savedLocations[locationIndex], false), 200)
+        } else LocationSelectionDialog.current.openDialog()
+    }
 
     useEffect(() => {
         console.log(savedLocations)
-        if (savedLocations.length > 0) {
-            setDialogText("please wait while we're fetching the latest data for you")
+        if(name!=="") {
+            if (savedLocations.length > 0) {
+                setDialogText("please wait while we're fetching the latest data for you")
 
-            dialogRef.current.openDialog()
-            setTimeout(() => fetchWeatherData(savedLocations[locationIndex], false), 200)
-        } else LocationSelectionDialog.current.openDialog()
+                updates.current.openDialog()
+                setTimeout(() => fetchWeatherData(savedLocations[locationIndex], false), 200)
+            } else LocationSelectionDialog.current.openDialog()
+        }
+        else{
+            NameDialog.current.openDialog()
+        }
 
     }, []);
 
@@ -149,7 +170,7 @@ const Main = () => {
     return (
         <>
             <>
-                <Dialog ref={dialogRef} dialogText={dialogText} isLoading={isLoading}/>
+                <Dialog ref={updates} dialogText={dialogText} isLoading={isLoading}/>
                 <Dialog ref={LocationSelectionDialog} dialogText={dialogText} isLoading={isLoading}>
                     <div className={"buttons"}>
                         <input onInput={searchCity} type={"text"}
@@ -166,11 +187,15 @@ const Main = () => {
                             }
                         </Suspense>
                     </div>
-
+                </Dialog>
+                <Dialog ref={NameDialog} onSubmit={handleNameSubmit}>
+                    <p>Welcome , please tell me what should i call you :)</p>
+                    <input type={"text"} name={"name"} placeholder={"Enter your name"}  />
+                    <button type={"submit"}>submit</button>
                 </Dialog>
                 <div className={"MainContainer"}>
                     <WeatherDataContext.Provider
-                        value={{isDay, LocationSelectionDialog ,setDialogText, currentData, Five_daysData, isLoading, setLocationIndex, savedLocations}}>
+                        value={{name ,isDay, LocationSelectionDialog ,setDialogText, currentData, Five_daysData, isLoading, setLocationIndex, savedLocations}}>
                         <Weather setLocationIndex={setLocationIndex} index={locationIndex} savedLocations={savedLocations}/>
                         <Data/>
                     </WeatherDataContext.Provider>

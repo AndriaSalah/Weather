@@ -1,4 +1,4 @@
-import {SiRainmeter} from "react-icons/si";
+
 import ProgressBar from "../../../Custom/ProgressBar/ProgressBar.jsx";
 import {useContext} from "react";
 import {WeatherDataContext} from "../../../Main/Main.jsx";

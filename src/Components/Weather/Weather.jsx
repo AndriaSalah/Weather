@@ -30,7 +30,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     const viewNextLocation = () => ++index < savedLocations.length && setLocationIndex((index) => index + 1)
     const viewPrevLocation = () => --index >= 0 && setLocationIndex((index) => index - 1)
 
-    console.log()
+
     useEffect(() => {
         switch (WeatherCode) {
             case 0:
@@ -122,7 +122,8 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         root.style.setProperty('--cardColor', 'rgb(53,51,53)')
         root.style.setProperty('--cardColor_NoAlpha', 'rgb(53,51,53)')
         root.style.setProperty('--textColor', '#ffffff')
-    } else {
+    }
+    else {
         root.style.setProperty('--bgColor', '#5C9CE5')
         root.style.setProperty('--sunColor', '#ECB150')
         root.style.setProperty('--accentColor', '#21283C')
@@ -135,7 +136,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         <div className={"WeatherWrapper"}>
             <div className={"hero"}>
                 <div className={"location"}>
-                    <h4>{location ? `${location[0]},${location[location.length - 1]}` : ""}</h4>
+                    <h4>{location ? `${location[0]}${location.length>2 ? (","+location[1]) : ""},${location[location.length - 1]}` : ""}</h4>
                     <p>{format(new Date(), "'Today, ' d MMM")}</p>
                 </div>
                 <button onClick={() => {

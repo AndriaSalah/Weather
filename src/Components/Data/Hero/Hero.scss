@@ -1,15 +1,17 @@
 .Hero{
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+
   color: white;
   .TextContainer{
     font-size: 18px;
     font-weight:200 ;
+    text-align: center;
   }
-  .Profile_Settings{
-    display: flex;
-    width: 10%;
-    font-size: 30px;
-  }
+  //.Profile_Settings{
+  //  display: flex;
+  //  width: 10%;
+  //  font-size: 30px;
+  //}
 }

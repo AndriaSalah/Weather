@@ -1,3 +1,18 @@
+@mixin button{
+  border-radius: 25px;
+  border: none ;
+  outline: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  transition-duration: 0.25s;
+  cursor: pointer;
+  background: #dcdcdc;
+  margin-bottom: 0.3rem;
+  &:hover{
+    background:#5C9CE5 ;
+    color: white;
+  }
+}
 #favDialog{
   display: block;
   position: fixed;
@@ -40,19 +55,7 @@
       flex-direction: column;
       justify-content: space-evenly;
       a{
-        border-radius: 25px;
-        border: none ;
-        outline: none;
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-        transition-duration: 0.25s;
-        cursor: pointer;
-        background: #dcdcdc;
-        margin-bottom: 0.3rem;
-        &:hover{
-          background:#5C9CE5 ;
-          color: white;
-        }
+        @include button
       }
     }
     .buttons{
@@ -60,20 +63,10 @@
       display: flex;
       justify-content: space-evenly;
       margin-top: 1rem;
-      a {
-        border-radius: 25px;
-        border: none ;
-        outline: none;
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-        transition-duration: 0.25s;
-        cursor: pointer;
-        background: #dcdcdc;
-        &:hover{
-          background:#5C9CE5 ;
-          color: white;
-        }
-      }
+      @include button
+    }
+    button[type=submit]{
+      @include button
     }
   }
 

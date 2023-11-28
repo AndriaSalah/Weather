@@ -1,27 +1,51 @@
 .Select{
+  max-width: 45%;
+
 position: relative;
+  user-select: none;
 .Main{
   width: 100%;
+  flex-grow:1 ;
   display: flex;
   background: white;
   color: black;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1rem;
   position: relative;
-  border-radius: 35px ;
+  border-radius: 10px ;
   align-items: center;
   gap: 0.5rem;
+
+  p{
+    font-size: 13px;
+    width: 5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 .Dropdown{
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.2rem;
   position: absolute;
   background: var(--cardColor_NoAlpha);
-  top:3rem ;
+  top:2.5rem ;
   z-index: 2;
-  padding: 1rem;
+  padding: 0.5rem;
   outline: 1px solid rgba(255, 255, 255, 0.27);
-  border-radius: 25px;
+  border-radius: 15px;
+  p{
+    border-radius: 10px;
+    font-size: 16px;
+    flex-grow:1 ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 10px;
+    &:hover{
+      background: gray;
+    }
+  }
 }
 }

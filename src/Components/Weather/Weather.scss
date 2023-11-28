@@ -7,11 +7,15 @@
   flex-direction: column;
   color: white;
   .hero{
+    height: 10%;
     padding: 1rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     .location {
+      min-width: 10px;
+      text-overflow: ellipsis;
       font-weight: lighter;
       h4{
         font-size: 28px;
@@ -23,7 +27,7 @@
       align-items: center;
       justify-content: center;
       aspect-ratio: 1;
-      width: 3rem;
+      width: fit-content;
       background: none;
       font-size: 2.5rem;
       color: white;
@@ -92,7 +96,7 @@
 
   .WeatherImg {
     position: relative;
-    height:65vh;
+    height:55vh;
 
     .moon {
       border-radius: 50%;
