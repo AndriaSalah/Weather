@@ -53,9 +53,9 @@ const Chart = () => {
                 <Dropdown onChange={onOptionChange} defaultOption={"Temperature"} options={Options}>
                 </Dropdown>
             </header>
-            <ResponsiveContainer width='100%' height={230}>
+            <ResponsiveContainer width='100%' height="75%" >
                 {!isLoading ?
-                    <AreaChart width={1200} height={250} data={Five_daysData}
+                    <AreaChart data={Five_daysData}
                                margin={{top: 30, right: 0, left: 0, bottom: 0}}>
                         <defs>
                             <linearGradient id="colorMin" x1="0" y1="0" x2="0" y2="1">
@@ -67,7 +67,7 @@ const Chart = () => {
                                 <stop offset="95%" stopColor="#5C9CE5" stopOpacity={0.2}/>
                             </linearGradient>
                         </defs>
-                        <XAxis tickLine={false} axisLine={false} dataKey="day"
+                        <XAxis height={10} tickLine={false} axisLine={false} dataKey="day"
                                tickFormatter={(date) => {
                                    const split = date.split("-")
                                    return `${split[2]}`

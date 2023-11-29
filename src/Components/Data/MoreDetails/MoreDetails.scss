@@ -1,6 +1,6 @@
 @import "Card/Card";
 .More_Details {
-  flex-basis: clamp(300px, 40vh, 320px);
+  //flex-basis: clamp(300px, 40vh, 320px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -41,7 +41,7 @@
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(3, 1fr);
       grid-column-gap: 10px;
-      grid-row-gap: 3vh;
+      grid-row-gap: 1vh;
 
     .div1 {
       grid-area: 1 / 1 / 2 / 2;

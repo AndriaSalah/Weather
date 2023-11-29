@@ -1,4 +1,8 @@
 .Chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40vh;
   background: var(--cardColor);
   padding: 2rem;
   border-radius: 25px;
@@ -20,11 +24,13 @@
     }
   }
   .tip{
-    padding-top: 2rem;
+    //display: none;
+    padding-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
     .max{
       background:#FF7272FF ;
       width: 1rem;
