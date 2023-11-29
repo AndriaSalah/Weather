@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {FaAngleDown} from "react-icons/fa";
+import {FaAngleDown} from "react-icons/fa6";
 import './Dropdown.scss'
 const Dropdown = ({ defaultOption , options=[] ,onChange}) => {
     const [isClicked, setIsClicked] = useState(false)

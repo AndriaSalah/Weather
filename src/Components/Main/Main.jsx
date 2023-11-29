@@ -14,7 +14,7 @@ const Main = () => {
     const [dialogText, setDialogText] = useState("Welcome, looks like you're new here , let's start by adding an address")
     const [isLoading, setIsLoading] = useState(false)
     const [name , setName] = useState(()=>{
-        const Name = JSON.parse(localStorage.getItem("Name"))
+        const Name = localStorage.getItem("name")
         return Name ? Name : ""
     })
     const [geoLocations, setGeoLocations] = useState([])

@@ -37,7 +37,7 @@
     grid-area: 2 / 3 / 3 / 4;
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 786px) {
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(3, 1fr);
       grid-column-gap: 10px;
