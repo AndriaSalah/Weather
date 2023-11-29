@@ -1,4 +1,13 @@
-
+.floaty{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background: black;
+  padding: 1rem;
+  z-index: 6;
+  color: white;
+  bottom: 125svh;
+}
 .WeatherWrapper {
   position: relative;
   width: 40%;
@@ -7,6 +16,7 @@
   justify-content: space-between;
   flex-direction: column;
   color: white;
+
   .hero{
     height: 10%;
     padding: 1rem;

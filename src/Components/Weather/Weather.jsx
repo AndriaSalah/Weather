@@ -10,7 +10,6 @@ import {FaAngleLeft, FaAngleRight, FaPlus, FaSun} from "react-icons/fa6";
 import {Snow} from "./Snow/Snow.jsx";
 
 
-
 // eslint-disable-next-line react/prop-types
 const Weather = ({setLocationIndex, index, savedLocations}) => {
 
@@ -18,8 +17,8 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     const [prevEnabled, setPrevEnabled] = useState(() => (index > 0))
     const [weatherDescription, setWeatherDescription] = useState("")
     const [isCloudy, setIsCloudy] = useState(0)
-    const [isRainy,setIsRainy] = useState(0)
-    const [isSnowy,setIsSnowy] = useState(0)
+    const [isRainy, setIsRainy] = useState(0)
+    const [isSnowy, setIsSnowy] = useState(0)
     const {currentData, isLoading, LocationSelectionDialog, setDialogText, isDay} = useContext(WeatherDataContext)
     const temperature = currentData ? currentData.temperature_2m : ""
     const location = !savedLocations[index] ? null : savedLocations[index][0].split(",")
@@ -158,43 +157,60 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         root.style.setProperty('--textColor', '#000000')
     }
 
-
+    const handleClouds = (e) => {
+        setIsCloudy(e.target.value)
+    }
+    const handleRain = (e) => {
+        setIsRainy(e.target.value)
+    }
+    const handleSnow = (e) => {
+        setIsSnowy(e.target.value)
+    }
 
     return (
-        <div className={"WeatherWrapper"}>
-            <Rain isRaining={isRainy}/>
-            <Snow isSnowy={isSnowy}/>
-            <div className={"hero"}>
-                <div className={"location"}>
-                    <h4>{location ? `${location[0]}${location.length > 2 ? ("," + location[1]) : ""},${location[location.length - 1]}` : ""}</h4>
-                    <p>{format(new Date(), "'Today, ' d MMM")}</p>
+        <>
+            <div className={"floaty"}>
+                <label>clouds</label>
+                <input type={"text"} placeholder={"1-2"} onChange={handleClouds}/>
+                <label>rain</label>
+                <input type={"text"} placeholder={"1-6"} onChange={handleRain}/>
+                <label>snow</label>
+                <input type={"text"} placeholder={"1-3"} onChange={handleSnow}/>
+            </div>
+            <div className={"WeatherWrapper"}>
+                <Rain isRaining={isRainy}/>
+                <Snow isSnowy={isSnowy}/>
+                <div className={"hero"}>
+                    <div className={"location"}>
+                        <h4>{location ? `${location[0]}${location.length > 2 ? ("," + location[1]) : ""},${location[location.length - 1]}` : ""}</h4>
+                        <p>{format(new Date(), "'Today, ' d MMM")}</p>
+                    </div>
+                    <button onClick={() => {
+                        LocationSelectionDialog.current.openDialog()
+                        setDialogText("please enter the new address that you would like to add")
+                    }}><FaPlus/></button>
                 </div>
-                <button onClick={() => {
-                    LocationSelectionDialog.current.openDialog()
-                    setDialogText("please enter the new address that you would like to add")
-                }}><FaPlus/></button>
-            </div>
-            <div className={"Temp_Controls"}>
-                <button disabled={!prevEnabled && true} onClick={viewPrevLocation}><FaAngleLeft/></button>
-                <div className={"Deg_feel"}>
-                    {isLoading ? <></> :
-                        <>
-                            <h2>{temperature}&deg;</h2>
-                            <h4><FaSun/>{weatherDescription}</h4>
-                        </>
-                    }
+                <div className={"Temp_Controls"}>
+                    <button disabled={!prevEnabled && true} onClick={viewPrevLocation}><FaAngleLeft/></button>
+                    <div className={"Deg_feel"}>
+                        {isLoading ? <></> :
+                            <>
+                                <h2>{temperature}&deg;</h2>
+                                <h4><FaSun/>{weatherDescription}</h4>
+                            </>
+                        }
+                    </div>
+                    <button disabled={!nextEnabled && true} onClick={viewNextLocation}><FaAngleRight/></button>
                 </div>
-                <button disabled={!nextEnabled && true} onClick={viewNextLocation}><FaAngleRight/></button>
+                <div className={"WeatherImg"}>
+
+                    <Clouds isCloudy={isCloudy}/>
+
+                    <div className={"moon"}></div>
+                    <img className={"buildings"} src={isDay ? sunBuildings : darkBuildings} alt={"Dark Buildings"}/>
+                </div>
             </div>
-            <div className={"WeatherImg"}>
-
-                <Clouds isCloudy={isCloudy}/>
-
-                <div className={"moon"}></div>
-                <img className={"buildings"} src={isDay ? sunBuildings : darkBuildings} alt={"Dark Buildings"}/>
-            </div>
-        </div>
-
+        </>
     )
 }
 export default Weather

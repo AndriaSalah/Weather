@@ -4,17 +4,18 @@ export const Rain = ({isRaining}) => {
     return (
         isRaining > 0 &&
         <div className={"RainWrapper"}>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
-            <i className="rain"></i><i className="rain"></i>
+
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
+                <i className="rain"></i><i className="rain"></i>
 
 
             {
