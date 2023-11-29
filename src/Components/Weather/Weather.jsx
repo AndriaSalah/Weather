@@ -7,6 +7,7 @@ import {format} from "date-fns";
 import {Rain} from "./Rain/Rain.jsx";
 import Clouds from "./Clouds/Clouds.jsx";
 import {FaAngleLeft, FaAngleRight, FaPlus, FaSun} from "react-icons/fa6";
+import {Snow} from "./Snow/Snow.jsx";
 
 
 
@@ -18,6 +19,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     const [weatherDescription, setWeatherDescription] = useState("")
     const [isCloudy, setIsCloudy] = useState(0)
     const [isRainy,setIsRainy] = useState(0)
+    const [isSnowy,setIsSnowy] = useState(0)
     const {currentData, isLoading, LocationSelectionDialog, setDialogText, isDay} = useContext(WeatherDataContext)
     const temperature = currentData ? currentData.temperature_2m : ""
     const location = !savedLocations[index] ? null : savedLocations[index][0].split(",")
@@ -37,6 +39,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     useEffect(() => {
         setIsCloudy(0)
         setIsRainy(0)
+        setIsSnowy(0)
         switch (WeatherCode) {
             case 0:
                 setWeatherDescription("clear Sky")
@@ -84,36 +87,47 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                 break
             case 66:
                 setWeatherDescription("Slight freezing rain")
+                setIsRainy(6)
                 break
             case 67:
                 setWeatherDescription("Heavy freezing rain")
+                setIsRainy(6)
                 break
             case 71:
                 setWeatherDescription("Light snow fall")
+                setIsSnowy(1)
                 break
             case 73:
                 setWeatherDescription("Moderate snow fall")
+                setIsSnowy(2)
                 break
             case 75:
                 setWeatherDescription("Heavy snow fall")
+                setIsSnowy(3)
                 break
             case 77:
                 setWeatherDescription("Snow grains")
+                setIsSnowy(3)
                 break
             case 80:
                 setWeatherDescription("Slight rain showers")
+                setIsRainy(4)
                 break
             case 81:
                 setWeatherDescription("Moderate rain showers")
+                setIsRainy(5)
                 break
             case 82:
                 setWeatherDescription("Violent rain showers")
+                setIsRainy(6)
                 break
             case 85:
                 setWeatherDescription("Slight snow showers")
+                setIsSnowy(2)
                 break
             case 86:
                 setWeatherDescription("Heavy snow showers")
+                setIsSnowy(3)
                 break
             case 95:
                 setWeatherDescription("Thunderstorm")
@@ -148,8 +162,8 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
 
     return (
         <div className={"WeatherWrapper"}>
-            <Rain isRaining={6}/>
-
+            <Rain isRaining={isRainy}/>
+            <Snow isSnowy={isSnowy}/>
             <div className={"hero"}>
                 <div className={"location"}>
                     <h4>{location ? `${location[0]}${location.length > 2 ? ("," + location[1]) : ""},${location[location.length - 1]}` : ""}</h4>
@@ -174,7 +188,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
             </div>
             <div className={"WeatherImg"}>
 
-                <Clouds isCloudy={2}/>
+                <Clouds isCloudy={isCloudy}/>
 
                 <div className={"moon"}></div>
                 <img className={"buildings"} src={isDay ? sunBuildings : darkBuildings} alt={"Dark Buildings"}/>
