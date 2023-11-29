@@ -63,7 +63,9 @@
       display: flex;
       justify-content: space-evenly;
       margin-top: 1rem;
-      @include button
+     a{
+       @include button
+     }
     }
     button[type=submit]{
       @include button
