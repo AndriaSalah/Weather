@@ -1,16 +1,20 @@
-.loader {
-  margin: auto;
-  color: #5C9CE5;
-  font-size: 45px;
-  text-indent: -9999em;
-  overflow: hidden;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  position: relative;
-  transform: translateZ(0);
-  animation: mltShdSpin 1.7s infinite ease, round 1.7s infinite ease;
-  outline: 1px white solid;
+.loaderContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  .loader {
+    color: #5C9CE5;
+    font-size: 45px;
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    position: relative;
+    transform: translateZ(0);
+    animation: mltShdSpin 1.7s infinite ease, round 1.7s infinite ease;
+  }
 }
 
 @keyframes mltShdSpin {

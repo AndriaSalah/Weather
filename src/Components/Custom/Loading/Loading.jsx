@@ -1,15 +1,19 @@
 import './Loading.scss'
 import PropTypes from 'prop-types';
-const Loading = ({enabled}) => {
+
+const Loading = () => {
     return (
-      <>
-          <span className="loader" style={{display: enabled? "block" : "none"}}></span>
-      </>
-    );
+        <>
+            <div className={"loaderContainer"}>
+                <span className="loader"></span>
+            </div>
+        </>
+    )
+        ;
 };
 
 export default Loading;
 
-Loading.propTypes={
-    enabled:PropTypes.bool
+Loading.propTypes = {
+    enabled: PropTypes.bool
 }

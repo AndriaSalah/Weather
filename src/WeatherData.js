@@ -45,7 +45,7 @@ export const fetchWeatherData_test = async (latitude,longitude)=>{
     const Current_Options= ["temperature_2m","relative_humidity_2m","apparent_temperature",
         "is_day","wind_speed_10m","precipitation","weather_code","rain","snowfall"]
     // const Hourly_Options = ["temperature_2m","relative_humidity_2m","wind_speed_10m"]
-    const Daily_Options = ["temperature_2m_max","temperature_2m_min","uv_index_max","wind_speed_10m_max"]
+    const Daily_Options = ["temperature_2m_max","temperature_2m_min","uv_index_max","wind_speed_10m_max","rain_sum"]
 
     const API_Current_URL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=${Current_Options.toString()}&daily=${Daily_Options.toString()}&timezone=auto`
 
@@ -57,9 +57,10 @@ export const fetchWeatherData_test = async (latitude,longitude)=>{
             temp_min: daily.temperature_2m_min[index],
             temp_max: daily.temperature_2m_max[index],
             UV: daily.uv_index_max[index],
-            WindSpeed : daily.wind_speed_10m_max[index]
+            WindSpeed : daily.wind_speed_10m_max[index],
+            Rain:daily.rain_sum[index]
         }));
-        console.log(structuredDaily)
+        //console.log(structuredDaily)
         return {current,structuredDaily}
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -75,7 +76,7 @@ export const Geocode = async (location = null , latitude= null , longitude= null
             throw new Error('Network response was not ok');
         }
         const {results} = await response.json();
-        console.log(results)
+       // console.log(results)
         return  results.map(location => [location.formatted_address, location.geometry, location.place_id])
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -83,5 +84,17 @@ export const Geocode = async (location = null , latitude= null , longitude= null
     }
 }
 export function LocationExists (location){
-    if(localStorage.getItem("locations").includes(location[2])) return true
+    if(localStorage.getItem("locations")?.includes(location[2])) return true
 }
+export const asyncLocalStorage = {
+    getItem: key =>
+        new Promise(resolve => {
+            const item = localStorage.getItem(key);
+            resolve(item);
+        }),
+    setItem: (key, value) =>
+        new Promise(() => {
+            localStorage.setItem(key, value);
+        }),
+    // Add more operations as needed
+};

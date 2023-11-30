@@ -1,0 +1,16 @@
+.custom-tooltip{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: var(--cardColor_NoAlpha) ;
+  border-radius: 25px;
+  padding: 1rem;
+  outline: rgba(255, 255, 255, 0.25) 1px solid;
+  .Max-Unit{
+    color: #FF7272;
+
+  }
+  .Min-Unit{
+    color:#5C9CE5 ;
+  }
+}

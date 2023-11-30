@@ -1,0 +1,20 @@
+.Chart-legend{
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  .legend_max{
+    background:#FF7272FF ;
+    width: 1rem;
+    height: 5px;
+    border-radius: 25px;
+  }
+  .legend_min{
+    background:#5c9ce5 ;
+    width: 1rem;
+    height: 5px;
+    border-radius: 25px;
+  }
+}

@@ -1,30 +1,32 @@
 import Dialog from "../Custom/Dialog/Dialog.jsx";
 import './Main.scss'
 import {FaLocationDot} from "react-icons/fa6";
-import {createContext, Suspense, useEffect, useRef, useState} from "react";
+import {createContext, useEffect, useRef, useState} from "react";
 import Loading from "../Custom/Loading/Loading.jsx";
 import Weather from "../Weather/Weather.jsx";
 import Data from "../Data/Data.jsx";
-import useDebounce from "../Custom/useDebounce.jsx";
-import {fetchWeatherData_test, Geocode, LocationExists} from "../../WeatherData.js";
+import useDebounce from "../Utils/useDebounce.jsx";
+import {asyncLocalStorage, Geocode} from "../../WeatherData.js";
+import useWeatherGeolocation from "../Utils/useWeatherGeolocation.jsx";
+import useWeatherGeocoding from "../Utils/useWeatherGeocoding.jsx";
+import {is} from "date-fns/locale";
+
 
 export const WeatherDataContext = createContext({})
+
+
 const Main = () => {
-    const [isDay,setIsDay] = useState(false)
+    const [isDay, setIsDay] = useState(false)
     const [dialogText, setDialogText] = useState("Welcome, looks like you're new here , let's start by adding an address")
     const [isLoading, setIsLoading] = useState(false)
-    const [name , setName] = useState(()=>{
+
+    const [name, setName] = useState(() => {
         const Name = localStorage.getItem("name")
         return Name ? Name : ""
     })
     const [geoLocations, setGeoLocations] = useState([])
     const [currentData, setCurrentData] = useState({})
     const [Five_daysData, setFive_daysData] = useState({})
-    const handelSearch = useDebounce((searchTerm)=>{
-        console.log(searchTerm)
-        Geocode(searchTerm).then(data => setGeoLocations(data))
-    }, 500);
-
 
     const [locationIndex, setLocationIndex] = useState(() => {
         const index = JSON.parse(localStorage.getItem("locationIndex"))
@@ -37,166 +39,166 @@ const Main = () => {
     const updates = useRef()
     const LocationSelectionDialog = useRef()
     const NameDialog = useRef()
-
-
-    function fetchWeatherData(location, newFetch = true) {
-
-        if (newFetch) {
-
-            if (!LocationExists(location))
-            {
-                saveToLocalStorage(location)
-                setLocationIndex(0)
-                setDialogText("please wait while we're fetching the data ")
-            }
-            else{
-                setDialogText("location exists")
-                LocationSelectionDialog.current.closeDialog()
+    const deleteDialog = useRef()
+    const fetchWeatherDataByGeolocation = useWeatherGeolocation(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations);
+    const fetchWeatherDataByGeocoding = useWeatherGeocoding(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations, LocationSelectionDialog, updates);
+    const handelSearch = useDebounce((searchTerm) => {
+        setIsLoading(true)
+        Geocode(searchTerm).then(data => setGeoLocations(data)).then(() => setIsLoading(false))
+    }, 500);
+    const initialize = async () => {
+        setIsLoading(true)
+        if (name !== "") {
+            if (savedLocations.length > 0) {
+                setDialogText("please wait while we're fetching the latest data for you")
                 updates.current.openDialog()
-                setTimeout(() => updates.current.closeDialog(), 1000)
-                return
-            }
-
-        }
-
-        const longitude = location[1].location.lng
-        const latitude = location[1].location.lat
-        LocationSelectionDialog.current.closeDialog()
-        updates.current.openDialog()
-        fetchWeatherData_test(latitude,longitude)
-            .then(({current,structuredDaily})=>{
-                setFive_daysData(structuredDaily)
-                setCurrentData(current)
-                setIsDay(current.is_day === 1)
-
-            })
-        console.log(currentData)
-        console.log(Five_daysData)
-
-        updates.current.closeDialog()
-        setIsLoading(false)
-    }
-
-
-    function FetchWeatherData_Location() {
-        LocationSelectionDialog.current.closeDialog()
-        setDialogText("please allow using the location permission")
-        updates.current.openDialog()
-        if (navigator.geolocation) navigator.geolocation.getCurrentPosition(success, error)
-
-        function success(position) {
-            const latitude = position.coords.latitude
-            const longitude = position.coords.longitude
-            setDialogText("Fetching data ...")
-            Geocode(null,latitude,longitude)
-                .then(([result]) =>{
-                    if(!LocationExists(result)) {
-                        saveToLocalStorage(result)
-                        fetchWeatherData_test(latitude,longitude)
-                            .then(({current,structuredDaily})=>{
-                                setFive_daysData(structuredDaily)
-                                setCurrentData(current)
-                                setIsDay(current.is_day === 1)
-                            })
-                        setLocationIndex(0)
-                        setTimeout(() => updates.current.closeDialog(), 1000)
-                    }
-                    else  setDialogText("location already exists ")
-                })
-
-            console.log(currentData)
-            console.log(Five_daysData)
-            updates.current.closeDialog()
-
-        }
-
-
-        function error() {
-            setDialogText("location permission denied")
-            setTimeout(() => {
+                await handleFetchWeatherByGeocoding(savedLocations[locationIndex], false)
                 updates.current.closeDialog()
-                setDialogText("Location permission was denied , please enter your address manually")
-                LocationSelectionDialog.current.openDialog()
-            }, 1000)
+            } else LocationSelectionDialog.current.openDialog()
+        } else {
+            NameDialog.current.openDialog()
         }
     }
+    const handleFetchWeatherByGeolocation = async () => {
+        setIsLoading(true)
+        try {
+            const {current, structuredDaily} = await fetchWeatherDataByGeolocation();
+            setCurrentData(current)
+            setFive_daysData(structuredDaily)
+            setLocationIndex(0)
+            //console.log(await current)
+            setIsDay(current.is_day === 1)
+            LocationSelectionDialog.current.closeDialog()
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
+        }
+    };
+    const handleFetchWeatherByGeocoding = async (location, newFetch) => {
+        setIsLoading(true)
+        try {
+            const {current, structuredDaily} = await fetchWeatherDataByGeocoding(location, newFetch);
+            console.log(current)
+            setCurrentData(current)
+            setFive_daysData(structuredDaily)
+            LocationSelectionDialog.current.closeDialog()
+
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
+        }
+    };
+    useEffect(() => {
+        console.log(isDay)
+    }, [isDay]);
+    useEffect(() => {
+        initialize().then(() => setIsLoading(false))
+    }, []);
 
     function searchCity(e) {
         const {value} = e.target
         value !== "" && handelSearch(value)
     }
 
-    const saveToLocalStorage = (locationData) => setSavedLocations((prevData) => [locationData, ...prevData])
 
-    function handleNameSubmit(e){
+    function handleNameSubmit(e) {
         e.preventDefault()
         const formData = new FormData(e.target)
         const enteredName = formData.get("name")
         setName(enteredName)
-        localStorage.setItem("name",enteredName)
+        localStorage.setItem("name", enteredName)
         NameDialog.current.closeDialog()
+        initialize().then(() => setIsLoading(false))
+    }
+    async function handleDelete(e) {
+        e.preventDefault();
+
+        // Update savedLocations by removing the location at the current index
+        const updatedSavedLocations = savedLocations.filter((item, index) => index !== locationIndex);
+        setSavedLocations(updatedSavedLocations);
+
+        // Determine the next index after deletion
+        const nextIndex = Math.min(locationIndex, savedLocations.length - 1);
+
         if (savedLocations.length > 0) {
-            setDialogText("please wait while we're fetching the latest data for you")
+            console.log(nextIndex)
+            setIsLoading(true);
+            setLocationIndex(nextIndex);
+            deleteDialog.current.closeDialog()
+            setDialogText("fetching")
             updates.current.openDialog()
-            setTimeout(() => fetchWeatherData(savedLocations[locationIndex], false), 200)
-        } else LocationSelectionDialog.current.openDialog()
+        } else {
+            // No saved locations left, handle accordingly
+            deleteDialog.current.closeDialog();
+            updates.current.closeDialog()
+            setDialogText("You have no locations now, let's add some!");
+            LocationSelectionDialog.current.openDialog();
+        }
     }
 
-    useEffect(() => {
-        console.log(savedLocations)
-        if(name!=="") {
-            if (savedLocations.length > 0) {
-                setDialogText("please wait while we're fetching the latest data for you")
-
-                updates.current.openDialog()
-                setTimeout(() => fetchWeatherData(savedLocations[locationIndex], false), 200)
-            } else LocationSelectionDialog.current.openDialog()
-        }
-        else{
-            NameDialog.current.openDialog()
-        }
-
-    }, []);
 
     useEffect(() => {
-        console.log(savedLocations)
-        localStorage.setItem("locations", JSON.stringify(savedLocations))
-
+        //console.log(savedLocations)
+        asyncLocalStorage.setItem("locations", JSON.stringify(savedLocations))
     }, [savedLocations]);
     useEffect(() => {
-        localStorage.setItem("locationIndex", JSON.stringify(locationIndex))
-        if (savedLocations[locationIndex]) fetchWeatherData(savedLocations[locationIndex], false)
-    }, [locationIndex]);
+        asyncLocalStorage.setItem("locationIndex", JSON.stringify(locationIndex))
+        console.log("invoked")
+        if (savedLocations[locationIndex]) handleFetchWeatherByGeocoding(savedLocations[locationIndex], false).then(() => setIsLoading(false))
+        else deleteDialog.current.closeDialog();
+        updates.current.closeDialog()
+        setDialogText("You have no locations now, let's add some!");
+        LocationSelectionDialog.current.openDialog();
+    }, [savedLocations,locationIndex]);
     return (
         <>
             <>
-                <Dialog ref={updates} dialogText={dialogText} isLoading={isLoading}/>
+                <Dialog ref={updates} dialogText={dialogText}> <Loading/> </Dialog>
                 <Dialog ref={LocationSelectionDialog} dialogText={dialogText} isLoading={isLoading}>
                     <div className={"buttons"}>
                         <input onInput={searchCity} type={"text"}
-                               placeholder={"enter city name"}/>
-                        <a onClick={FetchWeatherData_Location}><FaLocationDot/></a>
+                               placeholder={"enter city name"} autoComplete="street-address"/>
+                        <a onClick={() => {
+                            handleFetchWeatherByGeolocation().then(() => setIsLoading(false))
+                        }}><FaLocationDot/></a>
                     </div>
-                    <div className={"searchResult"} >
-                        <Suspense fallback={<Loading/>}>
-                            {
-                                geoLocations.map((geolocation, index) => (
-                                    [<a onClick={() => fetchWeatherData(geolocation)}
-                                        key={index}>{geolocation[0]}</a>]
-                                ))
-                            }
-                        </Suspense>
+                    <div className={"searchResult"}>
+                        {!isLoading ?
+                            geoLocations.map((geolocation, index) => (
+                                [<a onClick={() => {
+                                    handleFetchWeatherByGeocoding(geolocation).then(() => setIsLoading(false))
+                                }}
+                                    key={index}>{geolocation[0]}</a>]
+                            )) : <Loading/>
+                        }
                     </div>
                 </Dialog>
                 <Dialog ref={NameDialog} onSubmit={handleNameSubmit}>
                     <p>Welcome , please tell me what should i call you :)</p>
-                    <input type={"text"} name={"name"} placeholder={"Enter your name"}  />
+                    <input type={"text"} name={"name"} placeholder={"Enter your name"}/>
                     <button type={"submit"}>submit</button>
+                </Dialog>
+                <Dialog ref={deleteDialog} >
+                    <h4>Are you sure you want to delete this Location ?</h4>
+                    <button onClick={handleDelete}>yes</button>
+                    <button onClick={()=>deleteDialog.current.closeDialog()}>no</button>
                 </Dialog>
                 <div className={"MainContainer"}>
                     <WeatherDataContext.Provider
-                        value={{name ,isDay, LocationSelectionDialog ,setDialogText, currentData, Five_daysData, isLoading, setLocationIndex, savedLocations}}>
-                        <Weather setLocationIndex={setLocationIndex} index={locationIndex} savedLocations={savedLocations}/>
+                        value={{
+                            name,
+                            isDay,
+                            LocationSelectionDialog,
+                            setDialogText,
+                            currentData,
+                            Five_daysData,
+                            isLoading,
+                            setLocationIndex,
+                            savedLocations,
+                            deleteDialog
+                        }}>
+                        <Weather setLocationIndex={setLocationIndex} index={locationIndex}
+                                 savedLocations={savedLocations}/>
                         <Data/>
                     </WeatherDataContext.Provider>
                 </div>
