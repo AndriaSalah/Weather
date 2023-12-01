@@ -97,7 +97,7 @@ const Main = () => {
     }, [isDay]);
     useEffect(() => {
         initialize().then(() => setIsLoading(false))
-    }, []);
+    }, [name]);
 
     function searchCity(e) {
         const {value} = e.target
@@ -112,7 +112,6 @@ const Main = () => {
         setName(enteredName)
         localStorage.setItem("name", enteredName)
         NameDialog.current.closeDialog()
-        initialize().then(() => setIsLoading(false))
     }
 
     async function handleDelete(e) {
@@ -135,7 +134,7 @@ const Main = () => {
         asyncLocalStorage.setItem("locationIndex", JSON.stringify(locationIndex))
         console.log("invoked")
         if (savedLocations[locationIndex]) handleFetchWeatherByGeocoding(savedLocations[locationIndex], false).then(() => setIsLoading(false))
-        else {
+        else if(name!=="") {
             setDialogText("It's empty in here , let's add something");
             LocationSelectionDialog.current.openDialog();
         }

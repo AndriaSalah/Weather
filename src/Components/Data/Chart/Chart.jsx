@@ -41,12 +41,12 @@ const Chart = () => {
                                margin={{top: 30, right: 0, left: 0, bottom: 0}}>
                         <defs>
                             <linearGradient id="colorMin" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="10%" stopColor={Colors.Gradient_max} stopOpacity={0.6}/>
-                                <stop offset="95%" stopColor={Colors.Gradient_start} stopOpacity={0.1}/>
+                                <stop offset="10%" stopColor={Colors.Gradient_max} stopOpacity={0.7}/>
+                                <stop offset="95%" stopColor={Colors.Gradient_start} stopOpacity={0.2}/>
                             </linearGradient>
                             <linearGradient id="colorMax" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="10%" stopColor={Colors.Gradient_min} stopOpacity={0.6}/>
-                                <stop offset="95%" stopColor={Colors.Gradient_start} stopOpacity={0.1}/>
+                                <stop offset="10%" stopColor={Colors.Gradient_min} stopOpacity={0.7}/>
+                                <stop offset="95%" stopColor={Colors.Gradient_start} stopOpacity={0.2}/>
                             </linearGradient>
                         </defs>
                         <XAxis height={10} tickLine={false} axisLine={false} dataKey="day"
@@ -68,7 +68,7 @@ const Chart = () => {
                     </AreaChart> : <Loading/>
                 }
             </ResponsiveContainer>
-           <Chartlegend/>
+           <Chartlegend option={selectedOption}/>
         </div>
     );
 };

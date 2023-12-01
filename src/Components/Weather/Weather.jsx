@@ -6,7 +6,17 @@ import {WeatherDataContext} from "../Main/Main.jsx";
 import {format} from "date-fns";
 import {Rain} from "./Rain/Rain.jsx";
 import Clouds from "./Clouds/Clouds.jsx";
-import {FaAngleLeft, FaAngleRight, FaPlus, FaSun, FaTrashCan} from "react-icons/fa6";
+import {
+    FaAngleLeft,
+    FaAngleRight,
+    FaCloud, FaCloudBolt,
+    FaCloudRain, FaCloudShowersHeavy, FaCloudShowersWater,
+    FaCloudversify,
+    FaPlus, FaSnowflake,
+    FaSun,
+    FaTrashCan,
+    FaCloudSun
+} from "react-icons/fa6";
 import {Snow} from "./Snow/Snow.jsx";
 import Loading from "../Custom/Loading/Loading.jsx";
 
@@ -29,6 +39,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     const [isCloudy, setIsCloudy] = useState(0)
     const [isRainy, setIsRainy] = useState(0)
     const [isSnowy, setIsSnowy] = useState(0)
+    const [weatherIcon,setWeatherIcon] = useState(<FaSun/>)
     const temperature = currentData ? currentData.temperature_2m : ""
     const location = !savedLocations[index] ? "" : savedLocations[index][0].split(",")
     const address = location.length >= 3
@@ -64,100 +75,120 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         switch (WeatherCode) {
             case 0:
                 setWeatherDescription("clear Sky")
+                setWeatherIcon(<FaSun/>)
                 break
             case 1:
                 setWeatherDescription("Mainly clear")
+                setWeatherIcon(<FaCloudSun/>)
                 break
             case 2:
                 setWeatherDescription("partly cloudy")
+                setWeatherIcon(<FaCloudSun/>)
                 setIsCloudy(1)
                 break
             case 3:
                 setWeatherDescription("Overcast")
+                setWeatherIcon(<FaCloud/>)
                 setIsCloudy(2)
                 break
             case 45:
                 setWeatherDescription("Fog")
+                setWeatherIcon(<FaCloudversify />)
                 break
             case 48:
                 setWeatherDescription("Depositing rime fog")
+                setWeatherIcon(<FaCloudversify />)
                 break
             case 51:
                 setWeatherDescription("Light drizzle")
+                setWeatherIcon(<FaCloudRain />)
                 setIsRainy(1)
                 break
             case 53:
                 setWeatherDescription("Moderate drizzle")
+                setWeatherIcon(<FaCloudRain />)
                 setIsRainy(2)
                 break
             case 55:
                 setWeatherDescription("Heavy drizzle")
+                setWeatherIcon(<FaCloudRain />)
                 setIsRainy(3)
                 break
             case 61:
                 setWeatherDescription("Slight rain")
+                setWeatherIcon(<FaCloudShowersHeavy />)
                 setIsRainy(4)
                 break
             case 63:
                 setWeatherDescription("Moderate rain")
+                setWeatherIcon(<FaCloudShowersHeavy />)
                 setIsRainy(5)
                 break
             case 65:
                 setWeatherDescription("Heavy rain")
+                setWeatherIcon(<FaCloudShowersHeavy />)
                 setIsRainy(6)
                 break
             case 66:
                 setWeatherDescription("Slight freezing rain")
+                setWeatherIcon(<FaCloudShowersHeavy />)
                 setIsRainy(6)
                 break
             case 67:
                 setWeatherDescription("Heavy freezing rain")
+                setWeatherIcon(<FaCloudShowersHeavy />)
                 setIsRainy(6)
                 break
             case 71:
                 setWeatherDescription("Light snow fall")
+                setWeatherIcon(<FaSnowflake />)
                 setIsSnowy(1)
                 break
             case 73:
                 setWeatherDescription("Moderate snow fall")
+                setWeatherIcon(<FaSnowflake />)
                 setIsSnowy(2)
                 break
             case 75:
                 setWeatherDescription("Heavy snow fall")
+                setWeatherIcon(<FaSnowflake />)
                 setIsSnowy(3)
                 break
             case 77:
                 setWeatherDescription("Snow grains")
+                setWeatherIcon(<FaSnowflake />)
                 setIsSnowy(3)
                 break
             case 80:
                 setWeatherDescription("Slight rain showers")
+                setWeatherIcon(<FaCloudShowersWater />)
                 setIsRainy(4)
                 break
             case 81:
                 setWeatherDescription("Moderate rain showers")
+                setWeatherIcon(<FaCloudShowersWater />)
                 setIsRainy(5)
                 break
             case 82:
                 setWeatherDescription("Violent rain showers")
+                setWeatherIcon(<FaCloudShowersWater />)
                 setIsRainy(6)
                 break
             case 85:
                 setWeatherDescription("Slight snow showers")
+                setWeatherIcon(<FaSnowflake />)
                 setIsSnowy(2)
                 break
             case 86:
                 setWeatherDescription("Heavy snow showers")
+                setWeatherIcon(<FaSnowflake />)
                 setIsSnowy(3)
                 break
             case 95:
-                setWeatherDescription("Thunderstorm")
-                break
             case 96:
-                setWeatherDescription("Thunderstorm")
-                break
             case 99:
                 setWeatherDescription("Thunderstorm")
+                setWeatherIcon(<FaCloudBolt />)
                 break
             default:
                 setWeatherDescription("getting weather data")
@@ -209,7 +240,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         <>
             {/*this component is only use for debugging purposes*/}
             <div className={"floatyContainer"}>
-                <button title={"showFloaty"} onClick={()=>setShowFLoaty(!showFloaty)}>{showFloaty? "hide" : "show"}</button>
+                <button title={"showFloaty"} onClick={()=>setShowFLoaty(!showFloaty)}>{showFloaty? "hide" : "show"}</button> effects
                 {showFloaty &&
                 <div className={"floaty"}>
                     <label>clouds</label>
@@ -246,7 +277,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                         {isLoading ? <Loading/> :
                             <>
                                 <h2>{temperature}&deg;</h2>
-                                <h4><FaSun/>{weatherDescription}</h4>
+                                <h4>{weatherIcon}{weatherDescription}</h4>
                             </>
                         }
                     </div>

@@ -73,19 +73,19 @@
         margin-top: 1rem;
         gap: 1rem;
 
-        input[type=text] {
-          width: 80%;
-          min-width: 20%;
-          outline: 1px solid gray;
-          border: none;
-          border-radius: 25px;
-          height: 2rem;
-          padding: 0 1rem;
-        }
 
         a {
           @include button;
         }
+      }
+      input[type=text] {
+        width: 80%;
+        min-width: 20%;
+        outline: 1px solid gray;
+        border: none;
+        border-radius: 25px;
+        height: 2rem;
+        padding: 0 1rem;
       }
     }
   }

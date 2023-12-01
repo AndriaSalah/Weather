@@ -4,13 +4,14 @@
   position: absolute;
   z-index: 6;
   top: 70svh;
+  color: white;
 }
 .floaty{
   display: flex;
   flex-direction: column;
   background: black;
   padding: 1rem;
-  color: white;
+
 }
 .WeatherWrapper {
   position: relative;
