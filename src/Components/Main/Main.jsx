@@ -147,20 +147,20 @@ const Main = () => {
                 <Dialog ref={LocationSelectionDialog} isLoading={isLoading}>
                     {
                         savedLocations.length > 0 &&
-                        <button onClick={() => LocationSelectionDialog.current.closeDialog()}
-                                className={"close"}>close</button>
+                        <button type={"button"} onClick={() => LocationSelectionDialog.current.closeDialog()}
+                                className={"close"} title={"close"}  >close</button>
                     }
-                    <div>
+                    {/*<div className={"wrapper"}>*/}
                         <h3>{dialogText}</h3>
                         <div className={"controls"}>
-                            <input ref={textField} onInput={searchCity} type={"text"}
+                            <input name={"SearchField"} ref={textField} onInput={searchCity} type={"text"}
                                    placeholder={"enter city name"} autoComplete="street-address"/>
                             <a onClick={() => {
                                 textField.current.value = ""
                                 handleFetchWeatherByGeolocation().then(() => setIsLoading(false))
                             }}><FaLocationDot/></a>
                         </div>
-                    </div>
+                    {/*</div>*/}
                     <div className={"searchResult"}>
                         {/*
                             isSearching = 0 means doing nothing
@@ -168,7 +168,8 @@ const Main = () => {
                             isSearching = 2 search came back with data
                             isSearching = 3 search came back with nothing
                         */}
-                        {isSearching !== 1 ?
+                        {
+                            isSearching !== 1 ?
                             isSearching === 2 ? geoLocations.map((geolocation, index) => (
                                 [<a onClick={() => {
                                     textField.current.value = ""
@@ -182,19 +183,17 @@ const Main = () => {
                 </Dialog>
                 <Dialog ref={NameDialog} onSubmit={handleNameSubmit}>
                     <p>Welcome , please tell me what should i call you :)</p>
-                    <input type={"text"} name={"name"} placeholder={"Enter your name"}/>
-                    <button type={"submit"}>submit</button>
+                    <input type={"text"} name={"name"} placeholder={"Enter your name"} autoComplete={"name"}/>
+                    <button title={"submit"} type={"submit"}>submit</button>
                 </Dialog>
                 <Dialog ref={deleteDialog}>
-                    <button className={"close"} onClick={() => deleteDialog.current.closeDialog()}>close</button>
+                    <button type={"button"} className={"close"} title={"close"} onClick={() => deleteDialog.current.closeDialog()}>close</button>
                     <h4>Are you sure you want to delete this Location ?</h4>
-                    <button onClick={handleDelete}>yes</button>
-                    <button onClick={(e) => {
+                    <button type={"button"} title={"delete"} onClick={handleDelete}>yes</button>
+                    <button type={"button"} title={"No delete"} onClick={(e) =>
+                    {
                         e.preventDefault()
-                        deleteDialog.current.closeDialog()
-                    }
-                    }>no
-                    </button>
+                        deleteDialog.current.closeDialog()}}>no</button>
                 </Dialog>
                 <div className={"MainContainer"}>
                     <WeatherDataContext.Provider
@@ -206,7 +205,6 @@ const Main = () => {
                             currentData,
                             Five_daysData,
                             isLoading,
-                            isFetching: isSearching,
                             setLocationIndex,
                             savedLocations,
                             deleteDialog
@@ -216,7 +214,6 @@ const Main = () => {
                         <Data/>
                     </WeatherDataContext.Provider>
                 </div>
-
             </>
         </>
     )

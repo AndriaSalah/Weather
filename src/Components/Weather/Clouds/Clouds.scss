@@ -13,25 +13,21 @@
     @include cloud;
     bottom: 50vh;
     right: -8rem;
-    animation: cloud1-anim 2s infinite alternate ease-in-out ;
+    animation: cloud-anim 4s infinite alternate ease-in-out ;
     animation-delay: 1s;
   }
   .cloud2{
-    animation: cloud2-anim 3s infinite alternate ease-in-out ;
+    animation: cloud-anim 5s infinite alternate ease-in-out ;
     @include cloud;
     bottom: 43vh;
     left: -5rem;
   }
-  @keyframes cloud1-anim {
+  @keyframes cloud-anim {
     100%{
-      bottom: 51vh;
+      transform: translatey(2vh);
     }
   }
-  @keyframes cloud2-anim {
-    100%{
-      bottom: 44vh;
-    }
-  }
+
   @media (max-width: 1100px) {
   .clouds {
     .cloud1 {

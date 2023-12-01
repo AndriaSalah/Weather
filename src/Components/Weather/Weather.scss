@@ -45,6 +45,7 @@
         display: grid;
         place-items: center;
         aspect-ratio: 1;
+        width: -moz-fit-content;
         width: fit-content;
         background: none;
         font-size: 20px;

@@ -209,7 +209,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         <>
             {/*this component is only use for debugging purposes*/}
             <div className={"floatyContainer"}>
-                <button onClick={()=>setShowFLoaty(!showFloaty)}>{showFloaty? "hide" : "show"}</button>
+                <button title={"showFloaty"} onClick={()=>setShowFLoaty(!showFloaty)}>{showFloaty? "hide" : "show"}</button>
                 {showFloaty &&
                 <div className={"floaty"}>
                     <label>clouds</label>
@@ -230,18 +230,18 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                         <p>{format(new Date(), "'Today, ' d MMM")}</p>
                     </div>
                     <div className={"Location_tools"}>
-                        <button onClick={() => {
+                        <button title={"add location"} onClick={() => {
                             LocationSelectionDialog.current.openDialog()
                             setDialogText("please enter the new address that you would like to add")
                         }}><FaPlus/></button>
-                        <button onClick={() => {
+                        <button title={"remove location"} onClick={() => {
                             deleteDialog.current.openDialog()
                             setDialogText("please enter the new address that you would like to add")
                         }}><FaTrashCan/></button>
                     </div>
                 </div>
                 <div className={"Temp_Controls"}>
-                    <button style={Next_Prev_Styles.prev} onClick={viewPrevLocation}><FaAngleLeft/></button>
+                    <button title={"view prev location"} style={Next_Prev_Styles.prev} onClick={viewPrevLocation}><FaAngleLeft/></button>
                     <div className={"Deg_feel"}>
                         {isLoading ? <Loading/> :
                             <>
@@ -250,7 +250,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                             </>
                         }
                     </div>
-                    <button style={Next_Prev_Styles.next} onClick={viewNextLocation}><FaAngleRight/></button>
+                    <button title={"view next location"} style={Next_Prev_Styles.next} onClick={viewNextLocation}><FaAngleRight/></button>
                 </div>
                 <div className={"WeatherImg"}>
                     <Clouds isCloudy={isCloudy}/>

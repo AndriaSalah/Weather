@@ -1,6 +1,6 @@
-@mixin button{
+@mixin button {
   border-radius: 25px;
-  border: none ;
+  border: none;
   outline: none;
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -9,17 +9,17 @@
   cursor: pointer;
   background: #dcdcdc;
   margin-bottom: 0.3rem;
-  &:hover{
-    background:#5C9CE5 ;
+  &:hover {
+    background: #5C9CE5;
     color: white;
   }
 }
-#favDialog{
+
+#favDialog {
   display: flex;
   flex-direction: column;
-  position: fixed;
   width: 50%;
-  height: 50%;
+  max-height: 70%;
   margin: auto;
   border: none;
   padding: 2rem;
@@ -28,57 +28,65 @@
   transition: opacity 0.5s;
   opacity: 0;
   pointer-events: none;
-  button{
+  transition-duration: 0.5s;
+
+  button {
     @include button
   }
 
- &[open] {
+  &[open] {
     opacity: 1;
     pointer-events: inherit;
-  }
-  form{
-    text-align: center;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    .close{
-      place-self: flex-end;
-    }
-    input[type=text]{
-      width: 80%;
-      min-width: 20%;
-      outline: 1px solid gray;
-      border: none;
-      border-radius: 25px ;
-      height: 2rem;
-      padding: 0 1rem;
-    }
-    .searchResult{
-      flex-grow: 1;
 
-      width: 100%;
+    form {
+
+      text-align: center;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-around;
+      align-items: center;
       gap: 1rem;
-      overflow-y: auto;
-      a{
-        @include button;
-        width: 100%;
+
+      .close {
+        place-self: flex-end;
       }
-    }
-    .controls{
-      width: 50%;
-      display: flex;
-      justify-content: space-evenly;
-      margin-top: 1rem;
-      gap: 1rem;
-     a{
-       @include button;
-     }
+
+      .searchResult {
+        width: 100%;
+        max-height: 15rem;
+        display: grid;
+        place-items: center;
+        gap: 1rem;
+        overflow-y: auto;
+
+        a {
+          @include button;
+          width: 70%;
+        }
+      }
+
+      .controls {
+        width: 80%;
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 1rem;
+        gap: 1rem;
+
+        input[type=text] {
+          width: 80%;
+          min-width: 20%;
+          outline: 1px solid gray;
+          border: none;
+          border-radius: 25px;
+          height: 2rem;
+          padding: 0 1rem;
+        }
+
+        a {
+          @include button;
+        }
+      }
     }
   }
 
@@ -86,16 +94,27 @@
   &::backdrop {
     background-color: rgba(255, 255, 255, 0);
     backdrop-filter: blur(15px);
-   height: 80rem;
-  }
-  @media (max-width: 1100px) {
-    width: 90%;
-    min-height: 60%;
-    &[open] {
-      .controls {
-        width: 100%;
-      }
-    }
+    height: 80rem;
   }
 
+  @media (max-width: 1100px) {
+    width: 90%;
+    //min-height: 60%;
+    &[open] {
+      form {
+        .searchResult {
+          max-height: 8rem;
+          a {
+            width: 90%;
+          }
+        }
+        .controls {
+          width: 100%;
+        }
+      }
+
+    }
+
+  }
 }
+
