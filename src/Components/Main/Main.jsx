@@ -40,6 +40,7 @@ const Main = () => {
     const NameDialog = useRef()
     const deleteDialog = useRef()
     const textField = useRef()
+
     const fetchWeatherDataByGeolocation = useWeatherGeolocation(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations);
     const fetchWeatherDataByGeocoding = useWeatherGeocoding(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations, LocationSelectionDialog, updates);
     const handelSearch = useDebounce((searchTerm) => {
@@ -49,7 +50,7 @@ const Main = () => {
             console.log(data)
             data.length === 0 ? setIsSearching(3) : setIsSearching(2)
         })
-    }, 500);
+    }, 350);
     const initialize = async () => {
         setIsLoading(true)
         if (name !== "") {
