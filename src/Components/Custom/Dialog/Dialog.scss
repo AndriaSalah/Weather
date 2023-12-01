@@ -4,6 +4,7 @@
   outline: none;
   font-size: 1rem;
   padding: 0.5rem 1rem;
+  width: 5rem;
   transition-duration: 0.25s;
   cursor: pointer;
   background: #dcdcdc;
@@ -14,12 +15,11 @@
   }
 }
 #favDialog{
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: fixed;
   width: 50%;
-  height: 30%;
-  min-height: 30%;
-  max-height: 50%;
+  height: 50%;
   margin: auto;
   border: none;
   padding: 2rem;
@@ -28,6 +28,10 @@
   transition: opacity 0.5s;
   opacity: 0;
   pointer-events: none;
+  button{
+    @include button
+  }
+
  &[open] {
     opacity: 1;
     pointer-events: inherit;
@@ -37,9 +41,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
+    .close{
+      place-self: flex-end;
+    }
     input[type=text]{
       width: 80%;
       min-width: 20%;
@@ -50,8 +57,8 @@
       padding: 0 1rem;
     }
     .searchResult{
-      max-height: 20rem;
-      min-height: 5rem;
+      flex-grow: 1;
+
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -59,20 +66,19 @@
       gap: 1rem;
       overflow-y: auto;
       a{
-        @include button
+        @include button;
+        width: 100%;
       }
     }
-    .buttons{
+    .controls{
       width: 50%;
       display: flex;
       justify-content: space-evenly;
       margin-top: 1rem;
+      gap: 1rem;
      a{
-       @include button
+       @include button;
      }
-    }
-    button[type=submit]{
-      @include button
     }
   }
 
@@ -83,10 +89,10 @@
    height: 80rem;
   }
   @media (max-width: 1100px) {
-    width: 80%;
-    min-height: 50%;
+    width: 90%;
+    min-height: 60%;
     &[open] {
-      .buttons {
+      .controls {
         width: 100%;
       }
     }

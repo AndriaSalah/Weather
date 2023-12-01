@@ -1,12 +1,16 @@
+.floatyContainer{
+  background: black;
+  padding: 1rem;
+  position: absolute;
+  z-index: 6;
+  top: 70svh;
+}
 .floaty{
   display: flex;
   flex-direction: column;
-  position: absolute;
   background: black;
   padding: 1rem;
-  z-index: 6;
   color: white;
-  top: 80svh;
 }
 .WeatherWrapper {
   position: relative;

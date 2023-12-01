@@ -14,7 +14,7 @@ const Dialog = forwardRef (({dialogText,children,onSubmit}, Ref) => {
         <>
             <dialog ref={dialog} id="favDialog">
                 <form onSubmit={(e)=>onSubmit(e)} method="dialog">
-                    <h3>{dialogText}</h3>
+                    {dialogText && <h3>{dialogText}</h3>}
                     {children}
                     {/*<button id="confirmBtn">Close the dialog</button>*/}
                 </form>

@@ -13,8 +13,16 @@ import Loading from "../Custom/Loading/Loading.jsx";
 
 // eslint-disable-next-line react/prop-types
 const Weather = ({setLocationIndex, index, savedLocations}) => {
-    const {currentData, isLoading, LocationSelectionDialog,deleteDialog, setDialogText, isDay} = useContext(WeatherDataContext)
+    const {
+        currentData,
+        isLoading,
+        LocationSelectionDialog,
+        deleteDialog,
+        setDialogText,
+        isDay
+    } = useContext(WeatherDataContext)
 
+    const [showFloaty, setShowFLoaty] = useState(false)
     const [nextEnabled, setNextEnabled] = useState(() => (index < savedLocations.length))
     const [prevEnabled, setPrevEnabled] = useState(() => (index > 0))
     const [weatherDescription, setWeatherDescription] = useState("")
@@ -200,15 +208,19 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     return (
         <>
             {/*this component is only use for debugging purposes*/}
-            <div className={"floaty"}>
-                <label>clouds</label>
-                <input type={"text"} placeholder={"1-2"} onChange={handleClouds}/>
-                <label>rain</label>
-                <input type={"text"} placeholder={"1-6"} onChange={handleRain}/>
-                <label>snow</label>
-                <input type={"text"} placeholder={"1-3"} onChange={handleSnow}/>
+            <div className={"floatyContainer"}>
+                <button onClick={()=>setShowFLoaty(!showFloaty)}>{showFloaty? "hide" : "show"}</button>
+                {showFloaty &&
+                <div className={"floaty"}>
+                    <label>clouds</label>
+                    <input type={"text"} placeholder={"1-2"} onChange={handleClouds}/>
+                    <label>rain</label>
+                    <input type={"text"} placeholder={"1-6"} onChange={handleRain}/>
+                    <label>snow</label>
+                    <input type={"text"} placeholder={"1-3"} onChange={handleSnow}/>
+                </div>
+                }
             </div>
-
             <div className={"WeatherWrapper"}>
                 <Rain isRaining={isRainy}/>
                 <Snow isSnowy={isSnowy}/>

@@ -4,7 +4,6 @@ import {fetchWeatherData_test, LocationExists} from "../../WeatherData.js";
 export const UseWeatherGeocoding = (setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations , LocationSelectionDialog,updates) => {
     return (location,newFetch= true) => {
         return new Promise((resolve, reject) => {
-            console.log("function kos2omk yabnel; m,etnaka")
             if (newFetch) {
                 if (!LocationExists(location)) {
                     setSavedLocations(prev => [location,...prev])

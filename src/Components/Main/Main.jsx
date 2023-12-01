@@ -9,7 +9,6 @@ import useDebounce from "../Utils/useDebounce.jsx";
 import {asyncLocalStorage, Geocode} from "../../WeatherData.js";
 import useWeatherGeolocation from "../Utils/useWeatherGeolocation.jsx";
 import useWeatherGeocoding from "../Utils/useWeatherGeocoding.jsx";
-import {is} from "date-fns/locale";
 
 
 export const WeatherDataContext = createContext({})
@@ -17,9 +16,9 @@ export const WeatherDataContext = createContext({})
 
 const Main = () => {
     const [isDay, setIsDay] = useState(false)
-    const [dialogText, setDialogText] = useState("Welcome, looks like you're new here , let's start by adding an address")
+    const [dialogText, setDialogText] = useState("It's empty in here , let's add something")
     const [isLoading, setIsLoading] = useState(false)
-
+    const [isSearching, setIsSearching] = useState(0)
     const [name, setName] = useState(() => {
         const Name = localStorage.getItem("name")
         return Name ? Name : ""
@@ -40,17 +39,21 @@ const Main = () => {
     const LocationSelectionDialog = useRef()
     const NameDialog = useRef()
     const deleteDialog = useRef()
+    const textField = useRef()
     const fetchWeatherDataByGeolocation = useWeatherGeolocation(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations);
     const fetchWeatherDataByGeocoding = useWeatherGeocoding(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations, LocationSelectionDialog, updates);
     const handelSearch = useDebounce((searchTerm) => {
-        setIsLoading(true)
-        Geocode(searchTerm).then(data => setGeoLocations(data)).then(() => setIsLoading(false))
+        setIsSearching(1)
+        Geocode(searchTerm).then(data => {
+            setGeoLocations(data)
+            console.log(data)
+            data.length === 0 ? setIsSearching(3) : setIsSearching(2)
+        })
     }, 500);
     const initialize = async () => {
         setIsLoading(true)
         if (name !== "") {
             if (savedLocations.length > 0) {
-                setDialogText("please wait while we're fetching the latest data for you")
                 updates.current.openDialog()
                 await handleFetchWeatherByGeocoding(savedLocations[locationIndex], false)
                 updates.current.closeDialog()
@@ -66,9 +69,9 @@ const Main = () => {
             setCurrentData(current)
             setFive_daysData(structuredDaily)
             setLocationIndex(0)
-            //console.log(await current)
             setIsDay(current.is_day === 1)
             LocationSelectionDialog.current.closeDialog()
+            setIsSearching(0)
         } catch (error) {
             setIsLoading(false)
             console.log(error)
@@ -82,7 +85,7 @@ const Main = () => {
             setCurrentData(current)
             setFive_daysData(structuredDaily)
             LocationSelectionDialog.current.closeDialog()
-
+            setIsSearching(0)
         } catch (error) {
             setIsLoading(false)
             console.log(error)
@@ -110,29 +113,15 @@ const Main = () => {
         NameDialog.current.closeDialog()
         initialize().then(() => setIsLoading(false))
     }
+
     async function handleDelete(e) {
         e.preventDefault();
-
-        // Update savedLocations by removing the location at the current index
         const updatedSavedLocations = savedLocations.filter((item, index) => index !== locationIndex);
         setSavedLocations(updatedSavedLocations);
-
-        // Determine the next index after deletion
         const nextIndex = Math.min(locationIndex, savedLocations.length - 1);
-
-        if (savedLocations.length > 0) {
-            console.log(nextIndex)
-            setIsLoading(true);
+        if (savedLocations.length > 0 && nextIndex < savedLocations.length) {
             setLocationIndex(nextIndex);
             deleteDialog.current.closeDialog()
-            setDialogText("fetching")
-            updates.current.openDialog()
-        } else {
-            // No saved locations left, handle accordingly
-            deleteDialog.current.closeDialog();
-            updates.current.closeDialog()
-            setDialogText("You have no locations now, let's add some!");
-            LocationSelectionDialog.current.openDialog();
         }
     }
 
@@ -145,31 +134,49 @@ const Main = () => {
         asyncLocalStorage.setItem("locationIndex", JSON.stringify(locationIndex))
         console.log("invoked")
         if (savedLocations[locationIndex]) handleFetchWeatherByGeocoding(savedLocations[locationIndex], false).then(() => setIsLoading(false))
-        else deleteDialog.current.closeDialog();
-        updates.current.closeDialog()
-        setDialogText("You have no locations now, let's add some!");
-        LocationSelectionDialog.current.openDialog();
-    }, [savedLocations,locationIndex]);
+        else {
+            setDialogText("It's empty in here , let's add something");
+            LocationSelectionDialog.current.openDialog();
+        }
+    }, [savedLocations, locationIndex]);
+
     return (
         <>
             <>
-                <Dialog ref={updates} dialogText={dialogText}> <Loading/> </Dialog>
-                <Dialog ref={LocationSelectionDialog} dialogText={dialogText} isLoading={isLoading}>
-                    <div className={"buttons"}>
-                        <input onInput={searchCity} type={"text"}
-                               placeholder={"enter city name"} autoComplete="street-address"/>
-                        <a onClick={() => {
-                            handleFetchWeatherByGeolocation().then(() => setIsLoading(false))
-                        }}><FaLocationDot/></a>
+                <Dialog ref={updates} dialogText={"fetching data..."}> <Loading/> </Dialog>
+                <Dialog ref={LocationSelectionDialog} isLoading={isLoading}>
+                    {
+                        savedLocations.length > 0 &&
+                        <button onClick={() => LocationSelectionDialog.current.closeDialog()}
+                                className={"close"}>close</button>
+                    }
+                    <div>
+                        <h3>{dialogText}</h3>
+                        <div className={"controls"}>
+                            <input ref={textField} onInput={searchCity} type={"text"}
+                                   placeholder={"enter city name"} autoComplete="street-address"/>
+                            <a onClick={() => {
+                                textField.current.value = ""
+                                handleFetchWeatherByGeolocation().then(() => setIsLoading(false))
+                            }}><FaLocationDot/></a>
+                        </div>
                     </div>
                     <div className={"searchResult"}>
-                        {!isLoading ?
-                            geoLocations.map((geolocation, index) => (
+                        {/*
+                            isSearching = 0 means doing nothing
+                            isSearching = 1 means started searching
+                            isSearching = 2 search came back with data
+                            isSearching = 3 search came back with nothing
+                        */}
+                        {isSearching !== 1 ?
+                            isSearching === 2 ? geoLocations.map((geolocation, index) => (
                                 [<a onClick={() => {
+                                    textField.current.value = ""
                                     handleFetchWeatherByGeocoding(geolocation).then(() => setIsLoading(false))
                                 }}
                                     key={index}>{geolocation[0]}</a>]
-                            )) : <Loading/>
+                            )) : isSearching === 3 && <h4>Nothing came up :( </h4>
+                            : <Loading/>
                         }
                     </div>
                 </Dialog>
@@ -178,10 +185,16 @@ const Main = () => {
                     <input type={"text"} name={"name"} placeholder={"Enter your name"}/>
                     <button type={"submit"}>submit</button>
                 </Dialog>
-                <Dialog ref={deleteDialog} >
+                <Dialog ref={deleteDialog}>
+                    <button className={"close"} onClick={() => deleteDialog.current.closeDialog()}>close</button>
                     <h4>Are you sure you want to delete this Location ?</h4>
                     <button onClick={handleDelete}>yes</button>
-                    <button onClick={()=>deleteDialog.current.closeDialog()}>no</button>
+                    <button onClick={(e) => {
+                        e.preventDefault()
+                        deleteDialog.current.closeDialog()
+                    }
+                    }>no
+                    </button>
                 </Dialog>
                 <div className={"MainContainer"}>
                     <WeatherDataContext.Provider
@@ -193,6 +206,7 @@ const Main = () => {
                             currentData,
                             Five_daysData,
                             isLoading,
+                            isFetching: isSearching,
                             setLocationIndex,
                             savedLocations,
                             deleteDialog
