@@ -74,6 +74,7 @@ const Main = () => {
             LocationSelectionDialog.current.closeDialog()
             setIsSearching(0)
         } catch (error) {
+            // LocationSelectionDialog.current.closeDialog()
             setIsLoading(false)
             console.log(error)
         }
@@ -118,11 +119,13 @@ const Main = () => {
         e.preventDefault();
         const updatedSavedLocations = savedLocations.filter((item, index) => index !== locationIndex);
         setSavedLocations(updatedSavedLocations);
-        const nextIndex = Math.min(locationIndex, savedLocations.length - 1);
-        if (savedLocations.length > 0 && nextIndex < savedLocations.length) {
-            setLocationIndex(nextIndex);
-            deleteDialog.current.closeDialog()
+        const lastIndex =  savedLocations.length-1
+        if (locationIndex === lastIndex) {
+            setLocationIndex(Math.max(0, lastIndex - 1));
+        } else {
+            setLocationIndex(Math.min(locationIndex, lastIndex));
         }
+            deleteDialog.current.closeDialog()
     }
 
 

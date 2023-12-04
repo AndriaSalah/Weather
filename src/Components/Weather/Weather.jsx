@@ -162,17 +162,17 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
             case 80:
                 setWeatherDescription("Slight rain showers")
                 setWeatherIcon(<FaCloudShowersWater />)
-                setIsRainy(4)
+                setIsRainy(7)
                 break
             case 81:
                 setWeatherDescription("Moderate rain showers")
                 setWeatherIcon(<FaCloudShowersWater />)
-                setIsRainy(5)
+                setIsRainy(8)
                 break
             case 82:
                 setWeatherDescription("Violent rain showers")
                 setWeatherIcon(<FaCloudShowersWater />)
-                setIsRainy(6)
+                setIsRainy(9)
                 break
             case 85:
                 setWeatherDescription("Slight snow showers")

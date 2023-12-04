@@ -108,6 +108,81 @@ export const Rain = ({isRaining}) => {
                     <i className="rain"></i><i className="rain"></i>
                 </>
             }
+            {
+                isRaining > 6 &&
+                <>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                </>
+            }
+            {
+                isRaining > 7 &&
+                <>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                </>
+            }
+            {
+                isRaining > 8 &&
+                <>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                    <i className="rain"></i><i className="rain"></i>
+                </>
+            }
         </div>
     )
 }
