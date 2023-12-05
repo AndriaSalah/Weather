@@ -33,7 +33,7 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         isDay,
         DataRef
     } = useContext(WeatherDataContext)
-    
+
     const [nextEnabled, setNextEnabled] = useState(() => (index < savedLocations.length))
     const [prevEnabled, setPrevEnabled] = useState(() => (index > 0))
     const [weatherDescription, setWeatherDescription] = useState("")

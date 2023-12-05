@@ -1,6 +1,6 @@
-import {fetchWeatherData_test, Geocode, LocationExists} from "../../WeatherData.js";
+import {fetchWeatherData, Geocode, LocationExists} from "./WeatherData.js";
 
-const useWeatherGeolocation = (setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations) => {
+const useWeatherGeolocation = (setLocationIndex, setDialogText, setSavedLocations) => {
 
 
     return () => {
@@ -15,9 +15,8 @@ const useWeatherGeolocation = (setFive_daysData, setCurrentData, setIsDay, setLo
                             .then(([result]) => {
                                 if (!LocationExists(result)) {
                                     setSavedLocations(prev => [result,...prev])
-                                    fetchWeatherData_test(latitude, longitude)
+                                    fetchWeatherData(latitude, longitude)
                                         .then(({current, structuredDaily}) => {
-                                            //console.log(current)
                                             setLocationIndex(0);
                                             resolve({current, structuredDaily});
                                         });

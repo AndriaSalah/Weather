@@ -6,7 +6,7 @@ import Loading from "../Custom/Loading/Loading.jsx";
 import Weather from "../Weather/Weather.jsx";
 import Data from "../Data/Data.jsx";
 import useDebounce from "../Utils/useDebounce.jsx";
-import {asyncLocalStorage as asynclocalStorage, asyncLocalStorage, Geocode} from "../../WeatherData.js";
+import {Geocode} from "../Utils/WeatherData.js";
 import useWeatherGeolocation from "../Utils/useWeatherGeolocation.jsx";
 import useWeatherGeocoding from "../Utils/useWeatherGeocoding.jsx";
 
@@ -42,8 +42,8 @@ const Main = () => {
     const textField = useRef()
     const DataRef = useRef()
 
-    const fetchWeatherDataByGeolocation = useWeatherGeolocation(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations);
-    const fetchWeatherDataByGeocoding = useWeatherGeocoding(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations, LocationSelectionDialog, updates);
+    const fetchWeatherDataByGeolocation = useWeatherGeolocation(setLocationIndex, setDialogText, setSavedLocations);
+    const fetchWeatherDataByGeocoding = useWeatherGeocoding(setIsDay, setLocationIndex, setDialogText, setSavedLocations , LocationSelectionDialog,updates);
     const handelSearch = useDebounce((searchTerm) => {
         setIsSearching(1)
         Geocode(searchTerm).then(data => {
@@ -107,7 +107,7 @@ const Main = () => {
         const formData = new FormData(e.target)
         const enteredName = formData.get("name")
         setName(enteredName)
-        asynclocalStorage.setItem("name", enteredName)
+        localStorage.setItem("name", enteredName)
         NameDialog.current.closeDialog()
     }
 
@@ -126,10 +126,10 @@ const Main = () => {
 
 
     useEffect(() => {
-        asyncLocalStorage.setItem("locations", JSON.stringify(savedLocations))
+        localStorage.setItem("locations", JSON.stringify(savedLocations))
     }, [savedLocations]);
     useEffect(() => {
-        asyncLocalStorage.setItem("locationIndex", JSON.stringify(locationIndex))
+        localStorage.setItem("locationIndex", JSON.stringify(locationIndex))
         if (savedLocations[locationIndex]) handleFetchWeatherByGeocoding(savedLocations[locationIndex], false).then(() => setIsLoading(false))
         else if(name!=="") {
             setDialogText("It's empty in here , let's add something");

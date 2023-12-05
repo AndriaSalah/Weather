@@ -1,6 +1,6 @@
 import './Clouds.scss'
-import cloud1 from "../../../assets/Union.svg";
-import cloud3 from "../../../assets/Union-2.svg";
+import cloud1 from "../../../assets/cloud-1.svg";
+import cloud3 from "../../../assets/cloud-2.svg";
 
 
 const Clouds = ({isCloudy}) => {

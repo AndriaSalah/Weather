@@ -1,7 +1,7 @@
 
-import {fetchWeatherData_test, LocationExists} from "../../WeatherData.js";
+import {fetchWeatherData, LocationExists} from "./WeatherData.js";
 
-export const UseWeatherGeocoding = (setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations , LocationSelectionDialog,updates) => {
+export const UseWeatherGeocoding = (setIsDay, setLocationIndex, setDialogText, setSavedLocations , LocationSelectionDialog,updates) => {
     return (location,newFetch= true) => {
         return new Promise((resolve, reject) => {
             if (newFetch) {
@@ -21,7 +21,7 @@ export const UseWeatherGeocoding = (setFive_daysData, setCurrentData, setIsDay, 
             const longitude = location[1].location.lng
             LocationSelectionDialog.current.closeDialog()
             updates.current.openDialog()
-            fetchWeatherData_test(latitude, longitude)
+            fetchWeatherData(latitude, longitude)
                 .then(({current, structuredDaily}) => {
                     setIsDay(current.is_day === 1)
                     resolve({current, structuredDaily});
