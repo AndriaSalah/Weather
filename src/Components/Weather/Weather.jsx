@@ -10,15 +10,16 @@ import {
     FaAngleLeft,
     FaAngleRight,
     FaCloud, FaCloudBolt,
-    FaCloudRain, FaCloudShowersHeavy, FaCloudShowersWater,
+    FaCloudShowersHeavy, FaCloudShowersWater,
     FaCloudversify,
     FaPlus, FaSnowflake,
     FaSun,
     FaTrashCan,
-    FaCloudSun
+    FaCloudSun, FaMoon, FaCloudMoon, FaCloudSunRain, FaCloudMoonRain, FaAnglesDown
 } from "react-icons/fa6";
 import {Snow} from "./Snow/Snow.jsx";
 import Loading from "../Custom/Loading/Loading.jsx";
+
 
 
 // eslint-disable-next-line react/prop-types
@@ -29,17 +30,17 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         LocationSelectionDialog,
         deleteDialog,
         setDialogText,
-        isDay
+        isDay,
+        DataRef
     } = useContext(WeatherDataContext)
-
-    const [showFloaty, setShowFLoaty] = useState(false)
+    
     const [nextEnabled, setNextEnabled] = useState(() => (index < savedLocations.length))
     const [prevEnabled, setPrevEnabled] = useState(() => (index > 0))
     const [weatherDescription, setWeatherDescription] = useState("")
     const [isCloudy, setIsCloudy] = useState(0)
     const [isRainy, setIsRainy] = useState(0)
     const [isSnowy, setIsSnowy] = useState(0)
-    const [weatherIcon,setWeatherIcon] = useState(<FaSun/>)
+    const [weatherIcon, setWeatherIcon] = useState(<FaSun/>)
     const temperature = currentData ? currentData.temperature_2m : ""
     const location = !savedLocations[index] ? "" : savedLocations[index][0].split(",")
     const address = location.length >= 3
@@ -75,15 +76,15 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
         switch (WeatherCode) {
             case 0:
                 setWeatherDescription("clear Sky")
-                setWeatherIcon(<FaSun/>)
+                isDay ? setWeatherIcon(<FaSun/>) : setWeatherIcon(<FaMoon/>)
                 break
             case 1:
                 setWeatherDescription("Mainly clear")
-                setWeatherIcon(<FaCloudSun/>)
+                isDay ? setWeatherIcon(<FaCloudSun/>) : <FaCloudMoon/>
                 break
             case 2:
                 setWeatherDescription("partly cloudy")
-                setWeatherIcon(<FaCloudSun/>)
+                isDay ? setWeatherIcon(<FaCloudSun/>) : <FaCloudMoon/>
                 setIsCloudy(1)
                 break
             case 3:
@@ -93,107 +94,107 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                 break
             case 45:
                 setWeatherDescription("Fog")
-                setWeatherIcon(<FaCloudversify />)
+                setWeatherIcon(<FaCloudversify/>)
                 break
             case 48:
                 setWeatherDescription("Depositing rime fog")
-                setWeatherIcon(<FaCloudversify />)
+                setWeatherIcon(<FaCloudversify/>)
                 break
             case 51:
                 setWeatherDescription("Light drizzle")
-                setWeatherIcon(<FaCloudRain />)
+                isDay ? setWeatherIcon(<FaCloudSunRain/>) : setWeatherIcon(<FaCloudMoonRain/>)
                 setIsRainy(1)
                 break
             case 53:
                 setWeatherDescription("Moderate drizzle")
-                setWeatherIcon(<FaCloudRain />)
+                isDay ? setWeatherIcon(<FaCloudSunRain/>) : setWeatherIcon(<FaCloudMoonRain/>)
                 setIsRainy(2)
                 break
             case 55:
                 setWeatherDescription("Heavy drizzle")
-                setWeatherIcon(<FaCloudRain />)
+                isDay ? setWeatherIcon(<FaCloudSunRain/>) : setWeatherIcon(<FaCloudMoonRain/>)
                 setIsRainy(3)
                 break
             case 61:
                 setWeatherDescription("Slight rain")
-                setWeatherIcon(<FaCloudShowersHeavy />)
+                setWeatherIcon(<FaCloudShowersHeavy/>)
                 setIsRainy(4)
                 break
             case 63:
                 setWeatherDescription("Moderate rain")
-                setWeatherIcon(<FaCloudShowersHeavy />)
+                setWeatherIcon(<FaCloudShowersHeavy/>)
                 setIsRainy(5)
                 break
             case 65:
                 setWeatherDescription("Heavy rain")
-                setWeatherIcon(<FaCloudShowersHeavy />)
+                setWeatherIcon(<FaCloudShowersHeavy/>)
                 setIsRainy(6)
                 break
             case 66:
                 setWeatherDescription("Slight freezing rain")
-                setWeatherIcon(<FaCloudShowersHeavy />)
+                setWeatherIcon(<FaCloudShowersHeavy/>)
                 setIsRainy(6)
                 break
             case 67:
                 setWeatherDescription("Heavy freezing rain")
-                setWeatherIcon(<FaCloudShowersHeavy />)
+                setWeatherIcon(<FaCloudShowersHeavy/>)
                 setIsRainy(6)
                 break
             case 71:
                 setWeatherDescription("Light snow fall")
-                setWeatherIcon(<FaSnowflake />)
+                setWeatherIcon(<FaSnowflake/>)
                 setIsSnowy(1)
                 break
             case 73:
                 setWeatherDescription("Moderate snow fall")
-                setWeatherIcon(<FaSnowflake />)
+                setWeatherIcon(<FaSnowflake/>)
                 setIsSnowy(2)
                 break
             case 75:
                 setWeatherDescription("Heavy snow fall")
-                setWeatherIcon(<FaSnowflake />)
+                setWeatherIcon(<FaSnowflake/>)
                 setIsSnowy(3)
                 break
             case 77:
                 setWeatherDescription("Snow grains")
-                setWeatherIcon(<FaSnowflake />)
+                setWeatherIcon(<FaSnowflake/>)
                 setIsSnowy(3)
                 break
             case 80:
                 setWeatherDescription("Slight rain showers")
-                setWeatherIcon(<FaCloudShowersWater />)
+                setWeatherIcon(<FaCloudShowersWater/>)
                 setIsRainy(7)
                 break
             case 81:
                 setWeatherDescription("Moderate rain showers")
-                setWeatherIcon(<FaCloudShowersWater />)
+                setWeatherIcon(<FaCloudShowersWater/>)
                 setIsRainy(8)
                 break
             case 82:
                 setWeatherDescription("Violent rain showers")
-                setWeatherIcon(<FaCloudShowersWater />)
+                setWeatherIcon(<FaCloudShowersWater/>)
                 setIsRainy(9)
                 break
             case 85:
                 setWeatherDescription("Slight snow showers")
-                setWeatherIcon(<FaSnowflake />)
+                setWeatherIcon(<FaSnowflake/>)
                 setIsSnowy(2)
                 break
             case 86:
                 setWeatherDescription("Heavy snow showers")
-                setWeatherIcon(<FaSnowflake />)
+                setWeatherIcon(<FaSnowflake/>)
                 setIsSnowy(3)
                 break
             case 95:
             case 96:
             case 99:
                 setWeatherDescription("Thunderstorm")
-                setWeatherIcon(<FaCloudBolt />)
+                setWeatherIcon(<FaCloudBolt/>)
                 break
             default:
                 setWeatherDescription("getting weather data")
         }
-    }, [WeatherCode])
+    }, [isDay, WeatherCode])
     const updateRootStyles = useCallback(() => {
         if (!isDay) {
             root.style.setProperty('--bgColor', '#21283C')
@@ -213,45 +214,18 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
     }, [isDay, root.style])
 
     useEffect(() => {
-
-        updateNavButtons()
-    }, [index, updateNavButtons]);
-    useEffect(() => {
-
-        updateRootStyles()
-    }, [isDay, updateRootStyles])
-    useEffect(() => {
-
         updateWeatherDescription()
-    }, [savedLocations, updateWeatherDescription])
+        updateRootStyles()
+        updateNavButtons()
+    }, [index, updateNavButtons, updateRootStyles, updateWeatherDescription]);
 
-    //these functions are fo debugging purposes only
-    const handleClouds = (e) => {
-        setIsCloudy(e.target.value)
-    }
-    const handleRain = (e) => {
-        setIsRainy(e.target.value)
-    }
-    const handleSnow = (e) => {
-        setIsSnowy(e.target.value)
-    }
+   const handleScrollDown = ()=> DataRef.current?.scrollIntoView({ behavior: 'smooth' })
+
+
+
 
     return (
         <>
-            {/*this component is only use for debugging purposes*/}
-            <div className={"floatyContainer"}>
-                <button title={"showFloaty"} onClick={()=>setShowFLoaty(!showFloaty)}>{showFloaty? "hide" : "show"}</button> effects
-                {showFloaty &&
-                <div className={"floaty"}>
-                    <label>clouds</label>
-                    <input type={"text"} placeholder={"1-2"} onChange={handleClouds}/>
-                    <label>rain</label>
-                    <input type={"text"} placeholder={"1-6"} onChange={handleRain}/>
-                    <label>snow</label>
-                    <input type={"text"} placeholder={"1-3"} onChange={handleSnow}/>
-                </div>
-                }
-            </div>
             <div className={"WeatherWrapper"}>
                 <Rain isRaining={isRainy}/>
                 <Snow isSnowy={isSnowy}/>
@@ -272,7 +246,8 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                     </div>
                 </div>
                 <div className={"Temp_Controls"}>
-                    <button title={"view prev location"} style={Next_Prev_Styles.prev} onClick={viewPrevLocation}><FaAngleLeft/></button>
+                    <button title={"view prev location"} style={Next_Prev_Styles.prev} onClick={viewPrevLocation}>
+                        <FaAngleLeft/></button>
                     <div className={"Deg_feel"}>
                         {isLoading ? <Loading/> :
                             <>
@@ -281,13 +256,15 @@ const Weather = ({setLocationIndex, index, savedLocations}) => {
                             </>
                         }
                     </div>
-                    <button title={"view next location"} style={Next_Prev_Styles.next} onClick={viewNextLocation}><FaAngleRight/></button>
+                    <button title={"view next location"} style={Next_Prev_Styles.next} onClick={viewNextLocation}>
+                        <FaAngleRight/></button>
                 </div>
                 <div className={"WeatherImg"}>
                     <Clouds isCloudy={isCloudy}/>
                     <div className={"moon"}></div>
                     <img className={"buildings"} src={isDay ? sunBuildings : darkBuildings} alt={"Dark Buildings"}/>
                 </div>
+                    <button onClick={handleScrollDown} className={"Scroll_Down"}>Scroll for more info <FaAnglesDown /></button>
             </div>
         </>
     )

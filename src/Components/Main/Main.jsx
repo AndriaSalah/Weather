@@ -6,7 +6,7 @@ import Loading from "../Custom/Loading/Loading.jsx";
 import Weather from "../Weather/Weather.jsx";
 import Data from "../Data/Data.jsx";
 import useDebounce from "../Utils/useDebounce.jsx";
-import {asyncLocalStorage, Geocode} from "../../WeatherData.js";
+import {asyncLocalStorage as asynclocalStorage, asyncLocalStorage, Geocode} from "../../WeatherData.js";
 import useWeatherGeolocation from "../Utils/useWeatherGeolocation.jsx";
 import useWeatherGeocoding from "../Utils/useWeatherGeocoding.jsx";
 
@@ -40,6 +40,7 @@ const Main = () => {
     const NameDialog = useRef()
     const deleteDialog = useRef()
     const textField = useRef()
+    const DataRef = useRef()
 
     const fetchWeatherDataByGeolocation = useWeatherGeolocation(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations);
     const fetchWeatherDataByGeocoding = useWeatherGeocoding(setFive_daysData, setCurrentData, setIsDay, setLocationIndex, setDialogText, setSavedLocations, LocationSelectionDialog, updates);
@@ -47,7 +48,6 @@ const Main = () => {
         setIsSearching(1)
         Geocode(searchTerm).then(data => {
             setGeoLocations(data)
-            console.log(data)
             data.length === 0 ? setIsSearching(3) : setIsSearching(2)
         })
     }, 350);
@@ -74,7 +74,6 @@ const Main = () => {
             LocationSelectionDialog.current.closeDialog()
             setIsSearching(0)
         } catch (error) {
-            // LocationSelectionDialog.current.closeDialog()
             setIsLoading(false)
             console.log(error)
         }
@@ -83,7 +82,6 @@ const Main = () => {
         setIsLoading(true)
         try {
             const {current, structuredDaily} = await fetchWeatherDataByGeocoding(location, newFetch);
-            console.log(current)
             setCurrentData(current)
             setFive_daysData(structuredDaily)
             LocationSelectionDialog.current.closeDialog()
@@ -93,9 +91,7 @@ const Main = () => {
             console.log(error)
         }
     };
-    useEffect(() => {
-        console.log(isDay)
-    }, [isDay]);
+
     useEffect(() => {
         initialize().then(() => setIsLoading(false))
     }, [name]);
@@ -111,7 +107,7 @@ const Main = () => {
         const formData = new FormData(e.target)
         const enteredName = formData.get("name")
         setName(enteredName)
-        localStorage.setItem("name", enteredName)
+        asynclocalStorage.setItem("name", enteredName)
         NameDialog.current.closeDialog()
     }
 
@@ -130,12 +126,10 @@ const Main = () => {
 
 
     useEffect(() => {
-        //console.log(savedLocations)
         asyncLocalStorage.setItem("locations", JSON.stringify(savedLocations))
     }, [savedLocations]);
     useEffect(() => {
         asyncLocalStorage.setItem("locationIndex", JSON.stringify(locationIndex))
-        console.log("invoked")
         if (savedLocations[locationIndex]) handleFetchWeatherByGeocoding(savedLocations[locationIndex], false).then(() => setIsLoading(false))
         else if(name!=="") {
             setDialogText("It's empty in here , let's add something");
@@ -210,11 +204,12 @@ const Main = () => {
                             isLoading,
                             setLocationIndex,
                             savedLocations,
-                            deleteDialog
+                            deleteDialog,
+                            DataRef
                         }}>
                         <Weather setLocationIndex={setLocationIndex} index={locationIndex}
                                  savedLocations={savedLocations}/>
-                        <Data/>
+                        <Data ref={DataRef}/>
                     </WeatherDataContext.Provider>
                 </div>
             </>

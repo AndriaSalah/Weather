@@ -1,6 +1,5 @@
 import './Dialog.scss'
-import {forwardRef, useImperativeHandle, useRef} from "react";
-import PropTypes from 'prop-types';
+import {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 
 const Dialog = forwardRef (({dialogText,children,onSubmit}, Ref) => {
 
@@ -10,21 +9,28 @@ const Dialog = forwardRef (({dialogText,children,onSubmit}, Ref) => {
         closeDialog(){dialog.current.close()}
         })
     )
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.keyCode === 27) {
+                event.preventDefault();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
     return (
         <>
-            <dialog ref={dialog} id="favDialog">
+            <dialog ref={dialog} id={"Modal"}>
                 <form onSubmit={(e)=>onSubmit(e)} method="dialog">
                     {dialogText && <h3>{dialogText}</h3>}
                     {children}
-                    {/*<button id="confirmBtn">Close the dialog</button>*/}
                 </form>
             </dialog>
         </>
     );
 });
-Dialog.propTypes={
-    dialogText:PropTypes.string,
-    isLoading:PropTypes.bool
-}
 Dialog.displayName="Dialog-component"
 export default Dialog;
