@@ -1,3 +1,4 @@
+
 export const fetchWeatherData = async (latitude, longitude)=>{
     const Current_Options= ["temperature_2m","relative_humidity_2m","apparent_temperature",
         "is_day","wind_speed_10m","precipitation","weather_code","rain","snowfall"]
@@ -24,8 +25,8 @@ export const fetchWeatherData = async (latitude, longitude)=>{
     }
 }
 export const Geocode = async (location = null , latitude= null , longitude= null) => {
-    const URL_Reverse=`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=administrative_area_level_2&key=AIzaSyDI-xKHA0zQeocy4i3KPrefgGXxk-KRJcI`
-    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyDI-xKHA0zQeocy4i3KPrefgGXxk-KRJcI`
+    const URL_Reverse=`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=administrative_area_level_2&key=${import.meta.env.VITE_API_KEY}`
+    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${import.meta.env.VITE_API_KEY}`
     try {
         const response = await fetch(location?  URL : URL_Reverse);
         if (!response.ok) {
